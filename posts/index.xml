@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on k-cross</title>
+    <link>https://k-cross.github.io/posts/</link>
+    <description>Recent content in Posts on k-cross</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 04 Jul 2018 00:06:38 -0700</lastBuildDate>
+    
+	<atom:link href="https://k-cross.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Abstractions</title>
+      <link>https://k-cross.github.io/posts/abstractions/</link>
+      <pubDate>Wed, 04 Jul 2018 00:06:38 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/posts/abstractions/</guid>
+      <description>The correct abstractions in programming are hard to make for the future case. Often, not enough data is given at the start or the product changes in such a way that is no long flexible with the current line of thought. So, how then, should we build programs in a sustainable way?</description>
+    </item>
+    
+  </channel>
+</rss>
