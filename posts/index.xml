@@ -17,8 +17,8 @@
       <pubDate>Wed, 04 Jul 2018 00:06:38 -0700</pubDate>
       
       <guid>https://k-cross.github.io/posts/abstractions/</guid>
-      <description>Correct abstractions in programming are hard to make for the future case. Often, not enough data is given at the start of a project and it&amp;rsquo;ll change in such a way that is no longer flexible with the current implementation strategy. So how then, should sustainable programs be built? Optimizing for code deletion is a large part of the answer, perhaps not a full one though.
-Emergent Properties Optimizing for code deletion creates potential for desirable properties to emerge.</description>
+      <description>Foreword: the idea comes from Greg Young.
+Correct abstractions in programming are hard to make for the future case. Often, not enough data is given at the start of a project and it&amp;rsquo;ll change in such a way that is no longer flexible with the current implementation strategy. So how then, should sustainable programs be built? Optimizing for code deletion is a large part of the answer, perhaps not a full one though.</description>
     </item>
     
   </channel>
