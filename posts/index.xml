@@ -6,10 +6,21 @@
     <description>Recent content in Posts on k-cross</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 04 Jul 2018 00:06:38 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 07 Jul 2018 00:36:24 -0700</lastBuildDate>
     
 	<atom:link href="https://k-cross.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Elixir Impressions</title>
+      <link>https://k-cross.github.io/posts/elixir_impressions/</link>
+      <pubDate>Sat, 07 Jul 2018 00:36:24 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/posts/elixir_impressions/</guid>
+      <description>TLDR: Elixir is f*!#ing awesome!
+I&amp;rsquo;ve had the luxury of programming with elixir for the last nine months. It&amp;rsquo;s been my first full-time experience utilizing a functional language in a non-academic setting. For those who don&amp;rsquo;t know, elixir is a new language built on top of the erlang VM. It looks similar to ruby, but behaves quite differently.
+Coming from a c and python background, the language has been incredibly expressive, powerful, and different.</description>
+    </item>
     
     <item>
       <title>Abstractions</title>

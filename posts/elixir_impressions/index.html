@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    
+    <meta name="description" content="Abstractions from madness!">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:domain" content="https://k-cross.github.io">
+    
+    <meta name="twitter:image" content="https://k-cross.github.io/tn.png">
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="k-cross">
+    <meta name="twitter:description" property="og:description" itemprop="description" content="Abstractions from madness!">
+    <meta name="og:type" content="website">
+    <meta name="og:url" content="https://k-cross.github.io">
+    <meta name="og:image" itemprop="image primaryImageOfPage" content="https://k-cross.github.io/tn.png">
+    
+    <title>Elixir Impressions</title>
+    <link rel="shortcut icon" href="https://k-cross.github.io/sam.ico" id="favicon">
+    <link rel="stylesheet" href="https://k-cross.github.io/css/style.css">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    
+    
+
+</head>
+
+</html>
+<body><div class="wrap"><div class="section" id="title">Elixir Impressions</div><div class="section" id="content">Sat Jul 07, 2018 &#183; 591 words
+
+<hr/><p><em>TLDR: Elixir is f*!#ing awesome!</em></p>
+
+<p>I&rsquo;ve had the luxury of programming with <em>elixir</em> for the last nine months.
+It&rsquo;s been my first full-time experience utilizing a functional language in a non-academic setting.
+For those who don&rsquo;t know, <code>elixir</code> is a new language built on top of the <code>erlang</code> VM.
+It looks similar to <code>ruby</code>, but behaves quite differently.</p>
+
+<p>Coming from a <code>c</code> and <code>python</code> background, the language has been incredibly expressive, powerful, and different.
+Its tooling makes it a pleasurable experience to work with most of the time.
+But the real fun comes from the language itself.
+Parallel, concurrent and distributed programming semantics are top notch and built directly into the language or provided by standard libraries.
+Have one process that needs to talk to another? Just create a simple <code>GenServer</code>.
+Need to create a K/V store? There&rsquo;s <code>ETS</code>.
+Does that store need to be available across multiple nodes and persist? There&rsquo;s <code>mnesia</code>.
+Basically any modern web application becomes this type of environment anyway, yet most languages only think about these things as afterthoughts.
+Applications can scale without immediate and common constraints of other languages, making it easier for startups with limited starting funds (of course not just startups).</p>
+
+<p>There are so many good solutions that are readily available to access with minimal effort.
+So much so that it&rsquo;s rare to need specialized solutions like <code>redis</code> or <code>kafka</code> since similar tools already exist in the language.
+In many cases that makes them better since the application can be built around business logic rather than infrastructure choices.
+The only time these issues don&rsquo;t work out is when there is a major performance issue or there is less support for other languages and another service written in another language needs to consume or produce some result.</p>
+
+<p>The language is also infinitely flexible as it includes <em>macros</em>, a form of <em>metaprogramming</em> by which the language can be extended by anyone.
+Tired of writing the same boiler-plate code over and over? Write a macro!
+The amount of thought that goes into the everyday usage of the language is also nice, since there&rsquo;s a fresh take on doing things the <code>erlang</code> way.
+Case in point is the <code>with</code> statement, its inclusion wasn&rsquo;t necessary but certainly makes simple patterns much easier to deal with and manage.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elixir" data-lang="elixir">error_tuple <span style="color:#f92672">=</span> {<span style="color:#e6db74">:error</span>, <span style="color:#e6db74">&#34;function isn&#39;t fun&#34;</span>}
+
+<span style="color:#75715e"># Before `with`</span>
+case fun_fun_function() do
+  {<span style="color:#e6db74">:ok</span>, val} <span style="color:#f92672">-&gt;</span>
+    case fun_function(val) do
+      {<span style="color:#e6db74">:ok</span>, val2} <span style="color:#f92672">-&gt;</span> do_stuff_with(val, val2)
+      _ <span style="color:#f92672">-&gt;</span> error_tuple
+    end
+  _ <span style="color:#f92672">-&gt;</span>
+    error_tuple
+end
+
+<span style="color:#75715e"># Afer `with`</span>
+with {<span style="color:#e6db74">:ok</span>, val} <span style="color:#f92672">&lt;-</span> fun_fun_function(),
+     {<span style="color:#e6db74">:ok</span>, val2} <span style="color:#f92672">&lt;-</span> fun_function(val) do
+  do_stuff_with(val, val2)
+else
+  _ <span style="color:#f92672">-&gt;</span> error_tuple
+end</code></pre></div>
+<p>That&rsquo;s far easier to grok both syntactically and by length.
+The <code>with</code> implementation is just a macro that expands this type of logic.
+Sure, it&rsquo;s possible to keep this looking pretty by making function wrappers for case statements, but that&rsquo;s essentially what <code>with</code> does in a generic way already.
+This is just a simple case of 6 versus 9 lines of code, but it can easily extend beyond that.
+My personal benefits with <code>elixir</code> go beyond the code, it&rsquo;s allowed me to fully switch into the mindset of functional programming.
+It&rsquo;s opened an entire new paradigm of problem solving tools that seem mostly better than their OOP alternatives.</p>
+
+<p>All things considered, <code>elixir</code> is an amazing language with great tooling built on top of the incredibly reliable <em>BEAM</em> that&rsquo;s able to utilize the best features of <code>erlang</code>.
+The community is also very welcoming and friendly.
+There are no real boundaries to getting started.
+As Billy Mays might say, <em>DO IT TODAY!</em></p>
+</div><div class="section bottom-menu"><hr/><p>
+<a href="/posts">back</a>
+ &#183;
+
+
+
+<a href="/about">who?</a>
+
+
+&#183; <a href="/posts">what?</a>
+&#183; <a href="/purpose">why?</a>
+
+&#183; <a href="https://k-cross.github.io">main</a></p></div><div class="section footer">Abstractions from madness!</div></div></body>

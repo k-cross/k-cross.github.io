@@ -6,10 +6,21 @@
     <description>Recent content on k-cross</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 05 Jul 2018 00:03:26 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 07 Jul 2018 00:36:24 -0700</lastBuildDate>
     
 	<atom:link href="https://k-cross.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Elixir Impressions</title>
+      <link>https://k-cross.github.io/posts/elixir_impressions/</link>
+      <pubDate>Sat, 07 Jul 2018 00:36:24 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/posts/elixir_impressions/</guid>
+      <description>TLDR: Elixir is f*!#ing awesome!
+I&amp;rsquo;ve had the luxury of programming with elixir for the last nine months. It&amp;rsquo;s been my first full-time experience utilizing a functional language in a non-academic setting. For those who don&amp;rsquo;t know, elixir is a new language built on top of the erlang VM. It looks similar to ruby, but behaves quite differently.
+Coming from a c and python background, the language has been incredibly expressive, powerful, and different.</description>
+    </item>
     
     <item>
       <title>Modus Operandi</title>
@@ -27,7 +38,8 @@ The modern internet is not what it was originally envisioned to be. This is mean
       <pubDate>Wed, 04 Jul 2018 23:49:16 -0700</pubDate>
       
       <guid>https://k-cross.github.io/about/</guid>
-      <description>I am a software engineer by trade with professional interests that span a variety of practical and academic fields, from woodworking to mathematics. As a computer scientist, the things that truly peak my interest are language and compiler design, distributed systems and algorithms. When I&amp;rsquo;m not working, I&amp;rsquo;m probably commuting. But when I&amp;rsquo;m not doing that either, I&amp;rsquo;m usually playing with my awesome daughter somewhere in the mountains or beach.</description>
+      <description>I am a software engineer by trade with professional interests that span a variety of practical and academic fields, from woodworking to mathematics. As a computer scientist, the things that truly peak my interest are language and compiler design, distributed systems and algorithms. When I&amp;rsquo;m not working, I&amp;rsquo;m probably commuting. But when I&amp;rsquo;m not doing that either, I&amp;rsquo;m usually playing with my awesome daughter somewhere around mountains or beaches.
+Thank you for reading!</description>
     </item>
     
     <item>
