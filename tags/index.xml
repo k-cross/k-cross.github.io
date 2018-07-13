@@ -6,9 +6,91 @@
     <description>Recent content in Tags on kurosu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Sat, 07 Jul 2018 00:36:24 -0700</lastBuildDate>
     
 	<atom:link href="https://k-cross.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Elixir</title>
+      <link>https://k-cross.github.io/tags/elixir/</link>
+      <pubDate>Sat, 07 Jul 2018 00:36:24 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/elixir/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Elixir Examples</title>
+      <link>https://k-cross.github.io/tags/elixir-examples/</link>
+      <pubDate>Tue, 10 Jul 2018 17:16:31 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/elixir-examples/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Error Handling</title>
+      <link>https://k-cross.github.io/tags/error-handling/</link>
+      <pubDate>Tue, 10 Jul 2018 17:16:31 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/error-handling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Functional Programming</title>
+      <link>https://k-cross.github.io/tags/functional-programming/</link>
+      <pubDate>Sat, 07 Jul 2018 00:36:24 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/functional-programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Languages</title>
+      <link>https://k-cross.github.io/tags/languages/</link>
+      <pubDate>Sat, 07 Jul 2018 00:36:24 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/languages/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Optimize for Deletion</title>
+      <link>https://k-cross.github.io/tags/optimize-for-deletion/</link>
+      <pubDate>Wed, 04 Jul 2018 00:06:38 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/optimize-for-deletion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Paradigms</title>
+      <link>https://k-cross.github.io/tags/paradigms/</link>
+      <pubDate>Wed, 04 Jul 2018 00:06:38 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/paradigms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Programming</title>
+      <link>https://k-cross.github.io/tags/programming/</link>
+      <pubDate>Tue, 10 Jul 2018 17:16:31 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Software Engineering</title>
+      <link>https://k-cross.github.io/tags/software-engineering/</link>
+      <pubDate>Wed, 04 Jul 2018 00:06:38 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/software-engineering/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

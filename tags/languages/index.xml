@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Languages on kurosu</title>
+    <link>https://k-cross.github.io/tags/languages/</link>
+    <description>Recent content in Languages on kurosu</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 07 Jul 2018 00:36:24 -0700</lastBuildDate>
+    
+	<atom:link href="https://k-cross.github.io/tags/languages/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Elixir Impressions</title>
+      <link>https://k-cross.github.io/posts/elixir_impressions/</link>
+      <pubDate>Sat, 07 Jul 2018 00:36:24 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/posts/elixir_impressions/</guid>
+      <description>TLDR: Elixir is f*!#ing awesome!
+I&amp;rsquo;ve had the luxury of programming with elixir for the last nine months. It&amp;rsquo;s been my first full-time experience utilizing a functional language in a non-academic setting. For those who don&amp;rsquo;t know, elixir is a new language built on top of the erlang VM. It looks similar to ruby, but behaves quite differently.
+Coming from a c and python background, the language has been incredibly expressive, powerful, and different.</description>
+    </item>
+    
+  </channel>
+</rss>
