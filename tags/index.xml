@@ -6,10 +6,28 @@
     <description>Recent content in Tags on kurosu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Jul 2018 00:36:24 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 29 Oct 2018 07:59:41 -0700</lastBuildDate>
     
 	<atom:link href="https://k-cross.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Communication</title>
+      <link>https://k-cross.github.io/tags/communication/</link>
+      <pubDate>Mon, 29 Oct 2018 07:59:41 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/communication/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Development Processes</title>
+      <link>https://k-cross.github.io/tags/development-processes/</link>
+      <pubDate>Mon, 29 Oct 2018 07:59:41 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/development-processes/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Elixir</title>
@@ -86,7 +104,7 @@
     <item>
       <title>Software Engineering</title>
       <link>https://k-cross.github.io/tags/software-engineering/</link>
-      <pubDate>Wed, 04 Jul 2018 00:06:38 -0700</pubDate>
+      <pubDate>Mon, 29 Oct 2018 07:59:41 -0700</pubDate>
       
       <guid>https://k-cross.github.io/tags/software-engineering/</guid>
       <description></description>

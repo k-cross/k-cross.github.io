@@ -6,10 +6,19 @@
     <description>Recent content in Posts on kurosu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Jul 2018 17:16:31 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 29 Oct 2018 07:59:41 -0700</lastBuildDate>
     
 	<atom:link href="https://k-cross.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Osmosis Driven Development</title>
+      <link>https://k-cross.github.io/posts/osmosis/</link>
+      <pubDate>Mon, 29 Oct 2018 07:59:41 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/posts/osmosis/</guid>
+      <description>Once upon a time in a magical world where all tasks are well defined, performing task Y or implementing feature X is a simple matter of doing; In this world, only the current state of the feature needs to be communicated. A product manager could tell the sales team what engineering was capable of performing based on raw metrics and create hard deadlines, meaningful to customers. Time is used as a means to measure progress and productivity, two clear indicators that show how hard people are working.</description>
+    </item>
     
     <item>
       <title>Everything You Ever Wanted to Know About Crashing</title>

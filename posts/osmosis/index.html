@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    
+    <meta name="description" content="Abstractions from madness!">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:domain" content="https://k-cross.github.io">
+    
+    <meta name="twitter:image" content="https://k-cross.github.io/gallery/images/console.png">
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="kurosu">
+    <meta name="twitter:description" property="og:description" itemprop="description" content="Abstractions from madness!">
+    <meta name="og:type" content="website">
+    <meta name="og:url" content="https://k-cross.github.io">
+    <meta name="og:image" itemprop="image primaryImageOfPage" content="https://k-cross.github.io/gallery/images/console.png">
+    
+    <title>Osmosis Driven Development</title>
+    <link rel="shortcut icon" href="https://k-cross.github.io/sam.ico" id="favicon">
+    <link rel="stylesheet" href="https://k-cross.github.io/css/style.css">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    
+    
+
+</head>
+
+</html>
+<body><div class="wrap"><div class="section" id="title">Osmosis Driven Development</div><div class="section" id="content">Mon Oct 29, 2018 &#183; 1056 words
+
+<div><span id="tag"><a href="https://k-cross.github.io/tags/software-engineering">software engineering</a></span><span id="tag"><a href="https://k-cross.github.io/tags/development-processes">development processes</a></span><span id="tag"><a href="https://k-cross.github.io/tags/communication">communication</a></span></div><hr/>
+
+<p>Once upon a time in a magical world where all tasks are well defined, performing task <em>Y</em> or implementing feature <em>X</em> is a simple matter of doing;
+In this world, only the current state of the feature needs to be communicated.
+A product manager could tell the sales team what engineering was capable of performing based on raw metrics and create hard deadlines, meaningful to customers.
+Time is used as a means to measure progress and productivity, two clear indicators that show how hard people are working.</p>
+
+<p>Back down to reality though, there&rsquo;s a lot of grey area.
+Communication has been the most effective tool in the art of creating effective deliverables.
+It may also be one of my weakest skills.
+Originally upon entering the industry, it&rsquo;s importance was unclear and the assumption that product <em>stories</em> would be well-defined is often invalid in a startup or greenfield project.
+Distributing customer feedback is critical as is communicating to the members who communicate to those customers.
+If expectations are not properly managed, it makes life stressful for all involved.</p>
+
+<p>What is it that can be applied to situation <em>X</em> that would make desired outcomes more effective or accelerated.
+The solution is not more meetings but rather, determining what&rsquo;s useful then providing that knowledge in a format that&rsquo;s easily consumable.
+Gauging what an audience needs to hear and presenting technical information in an understandable way will provide insight to other organization functions.
+The increased communication may bring possible solutions or demonstrate bottlenecks, some of which may be non-technical, but its real power is the ability to persuade.
+Demonstrating to product management why a particular feature is harder to build than expected or explaining why changing the shape of production data without certainty is a bad idea, could encourage people who are in a position to fight or push back deadlines to do just that.</p>
+
+<h2 id="minimum-valuable-product">Minimum Valuable Product</h2>
+
+<p>This infamous term is meaningful in the context of a small product that barely exists in production.
+Building an <em>MVP</em> is hard, from an engineering standpoint it requires compromises of other features and functionality.
+Understanding what&rsquo;s definitely coming down the pipeline can accelerate future production, but that&rsquo;s not what the <em>MVP</em> is.
+Understanding the compromises to get base functionality is also something any good engineer should already be doing.
+For major feature requests, often they require most of the work to be done upfront anyway.
+Shaving off a week for a major feature that takes a few months to build is pretty small in the grand scheme of things and is often done in effort to ship things quickly and get feedback ASAP.</p>
+
+<p>The problem is that an <em>MVP</em> often applies to a special case of the problem.</p>
+
+<ul>
+<li>Base case is the core function of the feature which might be the less commonly used case but required for other cases.</li>
+<li>Special case is less generic and may be simpler or more complex than the base case.</li>
+</ul>
+
+<p>In the stance of a special case, the base case is often required to be built anyways to have the scaffolding ready for other features.
+If the special case is built without regard to the base case then a lot of duplicated effort occurs.
+The other problem with building in such a manner is that the shape of data that might need to be stored will be far less defined which creates significant overhead for future migrations and cognitive effort to dig out of a data hole.
+Unless the startup is brand new or there is minimal effort required in shifting directions, then the <em>MVP</em> makes sense, otherwise it&rsquo;s just not a useful way to build software on a large project in production.</p>
+
+<h2 id="builder-s-conundrum">Builder&rsquo;s Conundrum</h2>
+
+<p>This probably has a name in some management textbook somewhere, but let&rsquo;s call it the <em>builder&rsquo;s conundrum</em>.
+A problem by which the <em>builder</em> creates something to be consumed in a domain which the <em>builder</em> is unfamiliar.
+Imagine being new to a very large code base and being assigned a critical new feature and given a hard deadline.
+Progress must be made, but the implications of design choices might be longer lasting, particularly the ones around data or new API endpoints.
+It&rsquo;s unclear how APIs might be used by customers but it&rsquo;s also unfortunate when the shape of production data is changed to a shape that&rsquo;s difficult to work with.</p>
+
+<p>How can an engineer solve problems for customers or develop solutions when all the information that&rsquo;s given is, <em>implement feature X?</em>
+Understanding how customers use a product is critical to the design and implementation of new features.
+While the product team is supposed to help answering these types of questions, it&rsquo;s incredibly beneficial as an engineer to understand it too.
+Customers will be happier because the solution was designed with the intent to solve the problem they care about.
+Engineers are happy because the amount of effort to implement is easier to ascertain and are in a better position to make judgments around future features.
+Product will be happy because customers are happy and engineering will be able to produce higher quality features with meaningful commitments in place and less technical debt.
+There is an acceptable level of technical debt on any project, but the more that accumulates causes complexity to increase making simple features more difficult than necessary.</p>
+
+<p>The other interesting thing about technical debt is that it can cause internal strain particularly when the debt starts to accrue in areas like instrumentation.
+For example, someone on the team somewhere might have to manually write some type of query to perform some kind of analysis and properly bill a customer somewhere.
+It can place a higher burden on the security and ops teams too.
+Technical debt will eventually start placing burdens on internal organization functions so care should be given to how much accrues.</p>
+
+<p>Humans don&rsquo;t absorb information, it&rsquo;s curated and consumed.
+For engineers, distilling technical knowledge into easy summaries that can be consumed by non-technical people will help persuade peers in other functions to fight for the important things.
+As engineers, understanding key components of why this feature is being built or how this product is being used allows for better implementation strategies and insight for meaningful compromises.
+This might just make life a bit more comfortable since product will be less likely to enter in overly ambitious partner commitments.</p>
+</div><div class="section bottom-menu"><hr/><p>
+<a href="/posts">back</a>
+ &#183;
+
+
+
+<a href="/about">who?</a>
+
+
+&#183; <a href="/posts">what?</a>
+&#183; <a href="/purpose">why?</a>
+
+&#183; <a href="https://k-cross.github.io">main</a></p></div><div class="section footer">Abstractions from madness!</div></div></body>
