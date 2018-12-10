@@ -6,10 +6,19 @@
     <description>Recent content in Posts on kurosu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Oct 2018 07:59:41 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 09 Dec 2018 12:35:54 -0700</lastBuildDate>
     
 	<atom:link href="https://k-cross.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Three Phase Commit</title>
+      <link>https://k-cross.github.io/posts/3pc/</link>
+      <pubDate>Sun, 09 Dec 2018 12:35:54 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/posts/3pc/</guid>
+      <description>Paving a path towards continuous delivery and zero downtime deployments is a challenging pursuit. It seems that each organization has a different strategy to employ and different techniques to use. One of the more generic solutions that is at the heart of this article was inspired by the three-phase-commit. Its origin stems from computer networking. It&amp;rsquo;s a way to perform the non-blocking version of the two-phase commit protocol, described as:</description>
+    </item>
     
     <item>
       <title>Osmosis Driven Development</title>

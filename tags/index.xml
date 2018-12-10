@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Data Migrations</title>
+      <link>https://k-cross.github.io/tags/data-migrations/</link>
+      <pubDate>Sun, 09 Dec 2018 12:35:54 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/data-migrations/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Development Processes</title>
       <link>https://k-cross.github.io/tags/development-processes/</link>
       <pubDate>Mon, 29 Oct 2018 07:59:41 -0700</pubDate>
@@ -95,7 +104,7 @@
     <item>
       <title>Programming</title>
       <link>https://k-cross.github.io/tags/programming/</link>
-      <pubDate>Tue, 10 Jul 2018 17:16:31 -0700</pubDate>
+      <pubDate>Sun, 09 Dec 2018 12:35:54 -0700</pubDate>
       
       <guid>https://k-cross.github.io/tags/programming/</guid>
       <description></description>
@@ -104,9 +113,18 @@
     <item>
       <title>Software Engineering</title>
       <link>https://k-cross.github.io/tags/software-engineering/</link>
-      <pubDate>Mon, 29 Oct 2018 07:59:41 -0700</pubDate>
+      <pubDate>Sun, 09 Dec 2018 12:35:54 -0700</pubDate>
       
       <guid>https://k-cross.github.io/tags/software-engineering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Zero Downtime</title>
+      <link>https://k-cross.github.io/tags/zero-downtime/</link>
+      <pubDate>Sun, 09 Dec 2018 12:35:54 -0700</pubDate>
+      
+      <guid>https://k-cross.github.io/tags/zero-downtime/</guid>
       <description></description>
     </item>
     
