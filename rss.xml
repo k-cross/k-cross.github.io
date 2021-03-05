@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[quasarken]]></title><description><![CDATA[A blog about mostly technical things]]></description><link>https://k-cross.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 05 Mar 2021 05:09:15 GMT</lastBuildDate><item><title><![CDATA[About]]></title><description><![CDATA[I am a software engineer researching language and compiler design, operating systems, and distributed algorithms but dabble in a wide range…]]></description><link>https://k-cross.github.io/about/</link><guid isPermaLink="false">https://k-cross.github.io/about/</guid><pubDate>Wed, 27 Jan 2021 06:49:16 GMT</pubDate><content:encoded>&lt;p&gt;I am a software engineer researching language and compiler design, operating systems, and distributed algorithms but dabble in a wide range of mathematics, philosophy, and sciences too.
+As a researcher, I am a novice.
+The site’s moniker &lt;em&gt;quasarken&lt;/em&gt; has been my handle for a long time and is the history behind the name.
+My intent is for this site to serve as an outlet for research, opinions, and other creative endeavours.
+Turning theoretical computer science topics into practical computing concepts is the professional goal that I’m striving to attain.
+The book &lt;em&gt;Making Software - What Really Works and Why we Believe It&lt;/em&gt; has had a significant impact on my approach to software engineering.
+It has convinced me to write more research rather than opinion pieces because opinions are cheap; performing genuine research backed by data with analysis is hard.
+I’d appreciate feedback, particularly on articles written after 2020 as I have grown a lot as an engineer since then.
+Thank you for reading!&lt;/p&gt;
+&lt;h2&gt;Additional Sources&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://dropbox.tech/application/building-for-reliability-at-hellosign&quot;&gt;Building for Reliability&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.linkedin.com/in/kenneth-cross/&quot;&gt;LinkedIn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/k-cross/&quot;&gt;GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Distributed Algorithms: An Introduction]]></title><description><![CDATA[The goal here is to give an overview of common problems in the distributed computing space along with some common names.
+Each problem…]]></description><link>https://k-cross.github.io/posts/distributed_overview/</link><guid isPermaLink="false">https://k-cross.github.io/posts/distributed_overview/</guid><pubDate>Sat, 18 Jul 2020 16:20:30 GMT</pubDate><content:encoded>&lt;p&gt;The goal here is to give an overview of common problems in the distributed computing space along with some common names.
+Each problem described will have a follow up article that goes into a more in-depth study of its technical solutions.
+Another thing worth noting is that each problem will be stated by its &lt;em&gt;original&lt;/em&gt; analogy and then reworded to computing terms.
+These analogies often make assumptions which do not translate intuitively in the real world and so describing the problem as it actually exists in computing is ideal.&lt;/p&gt;
+&lt;h2&gt;Protocols Versus Algorithms&lt;/h2&gt;
+&lt;p&gt;The two are defined by dictionary.com as follows:&lt;/p&gt;
+&lt;p&gt;Protocol: &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;a set of rules governing the format of messages that are exchanged between computers.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Algorithm: &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;a set of rules for solving a problem in a finite number of steps.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This is something that should be clear, but in my entire career its never been formalized.
+Algorithms are a pretty easy concept, they’re used to compute something and take time to run.
+Protocols on the other hand deal with communication, they handle things in a particular way and have a time or order component to them.
+That is key, the difference between the two is that one depends on a logical time order to proceed rather than a logical step.&lt;/p&gt;
+&lt;p&gt;Why does this matter?
+The order through which something arrives and the time that it takes to get there is what determines the next action, rather than the order alone.
+Orderings in an algorithm can matter, but algorithms don’t have generic concepts of time.
+Maybe time is necessary in some factor of computation for a particular algorithm, but it largely shouldn’t matter in terms of how it achieves its task.
+For instance, a faster processor clock cycle would get you the same result using the same algorithm faster.
+On the other hand, for a protocol, it might not matter.
+A protocol might be waiting for a network request, get a response within some time window, and return some result.
+Another request might be made that is identical in every way except its time window, and we’ll receive a different response.
+So the way in which I formalize a protocol is that a protocol is dependent on both time and order.&lt;/p&gt;
+&lt;h1&gt;Problem Statements&lt;/h1&gt;
+&lt;h2&gt;Too Much Bread: An Introduction to Concurrency&lt;/h2&gt;
+&lt;p&gt;This is the problem that first introduced me to concurrent computing.
+It’s stated in the following way:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Alice and Bob are roommates that hate each other, but they must live with each other and both love bread.
+They have decided that the best way to not see each others faces is to create a wall between their living spaces where there is a two door container for each side of the wall.
+The bread is stored in this container, so how can we create an algorithm such that they will always have bread or have a clear answer about what to do when they don’t.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;The Dining Philosophers&lt;/h2&gt;
+&lt;p&gt;This problem is about handling deadlocks and how to prevent them while maximizing resources available.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;There are five philosophers sitting at a round table.
+Each one is hungry and either decides to debate with other philosophers or eat.
+There is exactly one fork to each philosophers left and right side, but they require two in order to eat.
+How can the philosophers debate and eat in peace?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;The Two Lovers&lt;/h2&gt;
+&lt;p&gt;This is a coordination problem.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Two lovers need to decide when to meet and can only send messages to each other.
+How can they decide when and where to meet?
+If one lover makes the mistake to come to the wrong place or at the wrong time, the relationship will end.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Movie Night&lt;/h2&gt;
+&lt;p&gt;This is another coordination problem that’s based around majority agreement.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note: Text messages are assumed to arrive instantly and not get lost in this problem.&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A group of friends are deciding meeting at the theatre and along the way, they all have an opinion on which movie to see.
+All friends are in different modes of transportation and will not meet before they come to agreement.
+Each person decides on which movie to see and once everyone has voted exactly once, they will tally up the vote and decide who wins or repeat until they come to agreement.
+At any point in the process any friend can drop and go do something else.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;A solution requires that:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;All remaining friends that haven’t dropped must come to agreement.&lt;/li&gt;
+&lt;li&gt;The movie that has been decided on is at least the majority opinion of one of the remaining friends.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Byzantine Generals&lt;/h2&gt;
+&lt;p&gt;This deals with trust and coordination in distributed systems.
+How is trust provided when things can malfunction or there are bad actors involved?
+The problem is stated as follows:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;There are five generals which need to coordinate to either strike or flee an enemy.
+Each general can only write messages to each other and all generals will know who sent which messages.
+The generals can also tell when a message has not been sent.
+Traitors may send false messages so how do can loyal generals come to agreement with their initial opinions?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;A solution needs to satisfy two requirements, &lt;em&gt;agreement&lt;/em&gt; and &lt;em&gt;validity&lt;/em&gt;.
+Agreement means that loyal generals are able to execute the same action while &lt;em&gt;validity&lt;/em&gt; means loyal generals decide based on their initial opinions.
+Three conditions are also placed on this problem:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Every message arrives to the correct destination.&lt;/li&gt;
+&lt;li&gt;Absence of messages can be detected.&lt;/li&gt;
+&lt;li&gt;The receiver knows who sent the message.&lt;/li&gt;
+&lt;li&gt;Any general can send messages to all other generals.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Choice Coordination&lt;/h2&gt;
+&lt;p&gt;A group of tourists decide to meet at one of two places&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Effective Software Engineering Processes]]></title><description><![CDATA[Software engineering processes have traditionally been applied as a series of anecdotes based on the well-formed evidence of personal…]]></description><link>https://k-cross.github.io/posts/sep/</link><guid isPermaLink="false">https://k-cross.github.io/posts/sep/</guid><pubDate>Tue, 14 Jul 2020 15:11:55 GMT</pubDate><content:encoded>&lt;p&gt;Software engineering processes have traditionally been applied as a series of anecdotes based on the &lt;em&gt;well-formed&lt;/em&gt; evidence of personal experiences and conjecture.
+As engineers being trained in the scientific method, we should be better.
+Reading &lt;em&gt;Making Software: What Really Works and Why We Believe It&lt;/em&gt; was inspiring and as such began to dig into more of the research to see how it can be used to modernize the software engineering process.
+Many of these studies are biased towards either large organizations or large code bases rather than small startups that are rapidly prototyping and building.
+That said, I will call out the areas that I think largely wouldn’t apply to early stage projects or startups.&lt;/p&gt;
+&lt;h2&gt;Software Design - The Composition of Code&lt;/h2&gt;
+&lt;p&gt;How does the shape of code impact a project?&lt;/p&gt;
+&lt;h3&gt;Is the Pen Mightier than the Sword?&lt;/h3&gt;
+&lt;p&gt;How much architecture is too much?
+Basically the argument here is the cost of getting things right the first time versus the cost of getting things wrong.
+Getting things wrong in smaller code bases tends to be cheap and more cost effective to fix things as you go.
+I personally hate this but the evidence is pretty clear.
+I’d add a specific caveat here that was not studied, is that some things tend to be more critical than others and as such should be weighted differently in terms of software correctness and robustness.
+In contrast to large projects, the cost of getting things wrong is very high because there is a lot more effort to coordinate changes and testing tends to be much more complex.&lt;/p&gt;
+&lt;h3&gt;The Modesty of Modules&lt;/h3&gt;
+&lt;p&gt;Another topic was about the modularity of code and its impact on development.
+The consensus was clear that breaking up code into modular and logical blocks is a better approach because it leads to a clearer and more explicit architecture.
+Another benefit about modularity was that the additional clarity led to fewer software faults.
+The best modules are the ones that handle very specific subsystems that are logically consistent with the rest of the application.
+The most error prone modules are the ones where the context of their use is not clear and so they end up being used everywhere.
+The idea here is that since the module ends up having many purposes, it will be used in many places that all have different contexts and so the assumptions about the inner-workings of the module are different for each subsystem using it.&lt;/p&gt;
+&lt;h3&gt;The Case Against DRY&lt;/h3&gt;
+&lt;p&gt;Using code that repeats itself in various places throughout a project is often seen as something to be avoided but research suggests that’s only true about half the time.
+There are cases where using DRY (Don’t Repeat Yourself) code ends up leading to more errors.
+There are other cases where it makes sense to reduce the amount of duplicated code in order to prevent issues where changes in one place don’t get reflected in the other.&lt;/p&gt;
+&lt;h2&gt;Collaboration - Well-Oiled Machines - Human to Human Interface&lt;/h2&gt;
+&lt;p&gt;Collaborating is a major part of both open source and commercial software development.
+Understanding the effectiveness of tools and techniques for collaboration are valuable because their effects are multiplicative.
+The way collaboration occurs affects product quality, organization productivity, and the software’s physical design.&lt;/p&gt;
+&lt;h3&gt;Code Reviews&lt;/h3&gt;
+&lt;p&gt;Engineer’s spend more time reading code than writing it, although that’s not just due to reviews, it can certainly take up a good chunk of time.
+Reviews can range from being very useful to just being authoritative rubber stamps to check off a requirement for a SOC2 auditor.
+There are things the engineers can do as both authors and readers to improve the effectiveness of the review process.
+First, as an author, reviews should contain a maximum between 200 to 500 changes.
+Adding more than 500 changes and a review quickly begins to fall into the authoritative rubber stamp category, where less feedback is given and the code quality also suffers.
+As both an author and reviewer, adding insight and getting context is incredibly valuable.
+This creates the environment for reviewers to contribute to the logical context of what’s being evaluated, actively improving the quality of the software.
+Adding more than one person to a review has exponentially diminishing returns. (NOTE: add the numbers here but I think it’s 90% of defects by one reviewer and 96% of defects with a team).
+The only time a team should actually review an entire bundle of code is when it is critical or there is additional motive to doing so like learning about the design in order to actively collaborate.&lt;/p&gt;
+&lt;h3&gt;Pair Programming&lt;/h3&gt;
+&lt;p&gt;Pair programming is beneficial in a lot of scenarios but less beneficial in others.
+It can also be facilitated in a manner that can make it effective or ineffective.
+First, let’s define what pair programming is for the context of software collaboration.&lt;/p&gt;
+&lt;p&gt;// NOTE: review this&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;It is the active design, development or review of code with a partner.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;The Affliction of Workspaces&lt;/h3&gt;
+&lt;p&gt;For the last couple years I’ve heard no end to the rant about how open office environments are bad and not conducive to work.
+I’ve also heard that cubicles were better.
+Unfortunately the research suggests something different altogether.
+If you need to be thinking deeply and focused where there is little collaboration needed towards an end result, then an isolated room is best.
+If you have a high need for collaboration, then an open office style is far more conducive to this type of work.
+Bad new for cubicle lovers is that the research shows they are bad for both focused and collaboration work.
+These conclusions were drawn from the chapters &lt;em&gt;code talkers&lt;/em&gt; and &lt;em&gt;communal workspaces&lt;/em&gt;.&lt;/p&gt;
+&lt;h3&gt;Conway’s Law&lt;/h3&gt;
+&lt;p&gt;NOTE: Do more research on how git has affected teams.&lt;/p&gt;
+&lt;p&gt;In &lt;em&gt;Making Software&lt;/em&gt;, the chapter on Conway’s law is particularly interesting.
+It reads:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A software’s communication structure is bound to be duplicated by the organization’s communication structure.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Basically, the research there shows that by trying to make sure that teams, software design, and the organization at large all share the same style of communications.
+Breaking these communication structures results in a loss of productivity.&lt;/p&gt;
+&lt;h3&gt;Productivity&lt;/h3&gt;
+&lt;p&gt;Back in 2014 I remember reading a bunch of material that happened to show up in my article feeds mentioning that Tuesday was the most productive day.
+After doing a little digging, it looks like this was provided by &lt;em&gt;Accoutemps&lt;/em&gt; which looks very much like a marketing push of some sort.
+The data came from surveys which begs the question, how are people actually measuring productivity?
+A survey would just be the result of the days people feel the most productive rather than hard data.&lt;/p&gt;
+&lt;p&gt;With this in mind and over the course of the last year, the average number of commits/day on the team I worked on was.&lt;/p&gt;
+&lt;p&gt;| Mon  | Tue  | Wed  | Thu  | Fri  |
+| 5.29 | 7.14 | 7.31 | 5.98 | 7.25 |&lt;/p&gt;
+&lt;p&gt;Wednesdays being the most productive comes as a no surprise to me because we have &lt;em&gt;no-meetings&lt;/em&gt; at that time.
+Fridays tend to be the next most productive day which I actually think is false since it’s extremely spikey in nature, as is Monday, due to things like Code Freeze when everyone is scrambling to meet artificial deadlines.&lt;/p&gt;
+&lt;h2&gt;Quality&lt;/h2&gt;
+&lt;p&gt;There has been a lot of research into the who, what, why, where, and how software bugs come from and what kind of things can be done about it.
+The aggregation of these results in different settings and domains seems to be in order to further progress our quality efforts.&lt;/p&gt;
+&lt;h3&gt;Test Driven Disaster&lt;/h3&gt;
+&lt;p&gt;The &lt;em&gt;test-driven development&lt;/em&gt; (TDD) approach to software engineering has been shown to be ineffective throughout a &lt;em&gt;systematic review&lt;/em&gt; (impressive!) of the research as described in (TDD Chapter in Making Software).
+The benefits that it does list are an improvement in software design at the micro-level at the expense of the macro level and increasing the number of unit tests.
+The issues with increasing unit test coverage are that the vast majority of software faults are not discovered through unit tests, they are discovered through system level tests and are not particularly effective.
+So if unit test coverage is not really helping us build correct designs then we should stop placing strong emphasis on them.
+Code coverage turns out to be a poor metric for analyzing the number of faults new features will have.
+The other issue is that the papers do not compare using the TDD approach against non-TDD for optimization tasks.
+It’s an issue because when optimization is the goal the only focus is at the micro level and thus I’m assuming that the results end up being negligible.
+In short, using TDD is worse for the overall big picture and has significant defects to its general approach.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Disclaimer: The research was conducted by someone biased towards someone in favor of TDD and I’m biased against TDD&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Facebook Paper&lt;/h2&gt;
+&lt;p&gt;The effect that a continuous delivery pipeline had on their mobile engineering team was impressive!
+General developer velocity did not increase by implementing a continuous delivery pipeline but their software quality did improve due to the effect that long release cycles had on the team.
+Basically, when a release was nearing, everyone would rush to finish their features and skip more quality checks than what they might ordinarily develop with.
+By increasing the release frequency, the software quality improved because missing a release was not a big deal.
+Since the increase in product quality leads to a smaller defect rate, developers did gain more time to deal with their tasks rather than waste effort on additional test cycles.
+By going from a waterfall release cycle type model to a continuous deployment model, they had to make test automation a priority in order to achieve this goal.
+Adding tooling and adjusting parameters with the release process, they were able to both reduce the amount of process required cutting down on coordination efforts while simultaneously releasing features at the time of completion, at a higher quality.
+This did not measure and negative effects by changing the process.
+Basically, the expectation here is that quality will improve and product management will be able to measure feature effectiveness quicker and course correct more often.
+There is a lot of upfront cost to doing this in a mobile application environment which is what the paper was about, but everything stated seems as if it would apply equally to the web and with less upfront costs on tooling and process changes.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Three Phase Commit Data Migrations]]></title><description><![CDATA[Paving a path towards continuous delivery and zero-downtime deployments is a challenging pursuit especially when each project employs its…]]></description><link>https://k-cross.github.io/posts/3pc/</link><guid isPermaLink="false">https://k-cross.github.io/posts/3pc/</guid><pubDate>Sun, 09 Dec 2018 19:35:54 GMT</pubDate><content:encoded>&lt;p&gt;Paving a path towards continuous delivery and zero-downtime deployments is a challenging pursuit especially when each project employs its own strategy.
+One generic solution that is at the heart of this article was inspired by the three-phase-commit.
+Its origin stems from &lt;em&gt;computer networking&lt;/em&gt; as a way to perform the non-blocking version of the two-phase commit protocol, described as:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;voting phase: a coordinator prepares all transaction participants, signaling to proceed until either committing or aborting.&lt;/li&gt;
+&lt;li&gt;commit phase: depending on participant votes, the coordinator decides to &lt;em&gt;commit&lt;/em&gt; if all voted &lt;em&gt;agree&lt;/em&gt; otherwise it &lt;em&gt;aborts&lt;/em&gt; and notifies all participants.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Adapting these to web applications, the &lt;em&gt;contention&lt;/em&gt; for &lt;em&gt;resources&lt;/em&gt; occurs with respect to databases and long-lived state.
+Taking downtime is commonly due to blocking operations from locking mechanisms over shared resources.
+To ensure the stability of an application’s environment while updating, taking downtime will guarantee &lt;em&gt;state&lt;/em&gt; remains consistent for all services and users.
+Since causes for downtime can be determined in advance, using more sophisticated approaches to eliminate it is possible.
+Executing data migrations as three distinct phases is a generic approach that anyone can use as a stone to pave in the road to zero-downtime deployments.&lt;/p&gt;
+&lt;h2&gt;Assemble Phase&lt;/h2&gt;
+&lt;p&gt;The first phase involves the creation of new entities which usually means new tables or columns with respect to a database.
+When a new entity replaces an old one the use of dual writes and idempotent operations is an effective strategy.
+Dual writes are when both old and new entities are recorded in the database alongside the running application.
+It allows changes to happen in production while still being able to roll-back those changes to the old model should the need arise.
+This increases the reliability that the updates work as intended and without issue.
+Making the new entity operations idempotent is also very valuable in many cases as we’ll find in the next phase.
+For an application, data structures that replace old ones are a common source failure.
+By the creation of an idempotent legacy handler, it’s possible to create a version chain that’s able to turn an old structure into a new one reliably.
+Having multiple versions of data and data structures is not ideal, but it is not always practical to migrate all data in one shot.
+By having a type of JIT version update in place, it’s possible to avoid complexities around more sophisticated data migrations.&lt;/p&gt;
+&lt;h2&gt;Manipulation Phase&lt;/h2&gt;
+&lt;p&gt;Back-filling data into a newly created column is the essence of this phase.
+Processing data only requires a read from an old entity and a write to the new one.
+How those writes are performed matters greatly.
+The trivial approach to writing a data migration is to do everything in one shot with no roll-back plan.
+It’s not always possible or at least practical to build database roll-back plans.
+When failures occur with single pass migrations, they can be very expensive.
+The database might have locked some critical columns with a large number of rows.
+So whatever the downtime is for a successful operation always needs to be planned to be double just in case a rollback is required.&lt;/p&gt;
+&lt;p&gt;Alternatively, when writing operations are made idempotent the application can be made eventually consistent.
+Since dual writing new data is already occurring, backfilling old data into the new format using an idempotent write operation allows the application to fail safely.
+A write might fail for many reasons — junk data, unexpected formats, and mishandled cases.
+Imagine having the first &lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mn&gt;75&lt;/mn&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;75%&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.64444em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; of a migration be performed and then fail on a single valid case.
+There are a few potential issues here:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;the backfill task is performed as a migration&lt;/li&gt;
+&lt;li&gt;the backfill task is performed as a transaction&lt;/li&gt;
+&lt;li&gt;the backfill task is not idempotent&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The first case has the flaw of downtime.
+The second issue may be computationally expensive and infeasible to repeatedly perform.
+The last issue creates potential for duplicated data during the backfill process.
+Using the idempotent strategy is more manageable since backfilling doesn’t need to occur all at once.
+If multiple write operations do happen, they end in the same result.
+Flexible data migrations are the result.
+Migrations can be written so that they’re performed in one shot or done as batch jobs.
+The failure handling mechanisms can also be as simple or complex as desired.
+For instance, using a trivial approach to retry the entire backfill or a sophisticated one to pick up where it left off.&lt;/p&gt;
+&lt;h2&gt;Dismantle Phase&lt;/h2&gt;
+&lt;p&gt;This is equivalent to dropping an entity from the database.
+With the completion of the &lt;em&gt;manipulation phase&lt;/em&gt;, getting verification that the backfill is complete is necessary to confirm the entity is no longer required.
+All the code that handled the updates and branching paths that resulted from different version functions can be removed too.
+There’s no better feeling as an engineer than reducing all the complexity of a system by removing the bloat and scaffolding that’s no longer needed.&lt;/p&gt;
+&lt;h2&gt;All Good Things&lt;/h2&gt;
+&lt;p&gt;A final word of caution.
+Application code updates only work reliably when the state of the application can be rebuilt and executed in the event of a crash.
+One approach is to build a history from immutable states which can be replayed, basically a log in the way some file systems work.
+If the behavior of an application is determined by global state that cannot be restored reliably, larger problems exist and this strategy is unlikely to help.
+Other problems that were not covered include the existence of operating on data across different databases.
+This is a much harder distributed systems problem to solve but using idempotent operations is a great place to start.&lt;/p&gt;
+&lt;p&gt;The three phase commit strategy has worked on production systems for a few years in a variety of different scenarios.
+Previously, deployments would happen during the odd hours of evening in order to cause minimal disruption.
+Zero-downtime deployments can happen during sane working ours bringing joy to engineers, more certainty to stake holders, and a better experience for customers.
+All good things result for all parties that have a lot to loose when things go wrong.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Osmosis Driven Development]]></title><description><![CDATA[In a magical world where all tasks are well defined, performing task  or implement feature  is a simple matter of doing.
+In this world only…]]></description><link>https://k-cross.github.io/posts/osmosis/</link><guid isPermaLink="false">https://k-cross.github.io/posts/osmosis/</guid><pubDate>Mon, 29 Oct 2018 14:59:41 GMT</pubDate><content:encoded>&lt;p&gt;In a magical world where all tasks are well defined, performing task &lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;Y&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;Y&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.68333em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.22222em;&quot;&gt;Y&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; or implement feature &lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;X&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;X&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.68333em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.07847em;&quot;&gt;X&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; is a simple matter of doing.
+In this world only the current state of the feature needs to be communicated.
+A product manager informs stakeholders what engineering is capable of based on raw metrics, creating hard deadlines meaningful to clients.
+Time is used as the sole metric to measure progress and productivity.
+Unfortunately, there’s a lot of grey area back in the non-magical realm of Earth.&lt;/p&gt;
+&lt;p&gt;Well-defined tasks are rare in businesses with high uncertainty, volatility, or both.
+Key factors contributing to uncertainty are related to context.
+A ticket describing a task is often created by someone operating with language and context that may not translate to the person performing the task.
+Engineers usually have contextual concerns related to the inner-workings of a running system, even when the customer problem is known other departments own its context.
+What can accelerate desired outcomes and increase the effectiveness of collaboration?&lt;/p&gt;
+&lt;p&gt;At the team level, distributing context and customer feedback between colleagues handling the same project is critical.
+Team members have the opportunity to create a shared language for the project, rather than specific field jargon segmented between different types of team members.
+Clarity between communication channels results because individuals talk about the same things rather than things that are off-center or tangential.
+The idea is to create communication based feedback loops.
+Making this loop as quick as possible is ideal since it’s used as a qualitative measure of effort.
+With a slow feedback loop, more effort is spent on work that ends up misaligned with either customer or organizational goals.&lt;/p&gt;
+&lt;p&gt;For individuals, providing relevant context is about determining who the target audience is.
+Determining what’s useful then providing that knowledge in a format that’s easily consumable.
+Gauging what an audience needs to hear and presenting technical information in an understandable way will provide insight to other organization functions.
+Increased communication has the potential to simplify problem solutions; it’ll demonstrate both process and technical bottlenecks; finally, it provides power to persuade.
+For example, it’s valuable to be able to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;demonstrate to product management why a particular feature is harder to build than expected&lt;/li&gt;
+&lt;li&gt;explain why changing the shape of production data without certainty is a bad idea&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Providing insight to people in a position to fight or push back deadlines, might do just that, provided they receive information that updates their native context.&lt;/p&gt;
+&lt;h2&gt;Maximum Value for Least Effort&lt;/h2&gt;
+&lt;p&gt;The &lt;em&gt;MVP&lt;/em&gt; (minimum viable product) is an infamous term that’s meaningful in the context of a new product.
+Building an MVP is hard particularly when features are designed as MVPs on top of an MVP because there’s a good chance it requires compromises to &lt;em&gt;existing&lt;/em&gt; features and functionality.
+As an application’s complexity increases, the MVP model to feature development becomes less relevant.
+Rapid prototyping should still be part of the development process, but prototypes are designed to reduce uncertainty, not become MVPs.
+As the term mentions, MVP applies to &lt;em&gt;products&lt;/em&gt; not &lt;em&gt;features&lt;/em&gt; so let’s posit that the goals of an MVP are the same for new features.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;maximize value while performing least amount of work&lt;/li&gt;
+&lt;li&gt;ship as quickly as possible&lt;/li&gt;
+&lt;li&gt;initialize client feedback loop determining signal to noise ratio&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Building out MVPs often means catering to solving the subset of a more generalized problem.
+The &lt;em&gt;base case&lt;/em&gt; of a problem is it’s most generic form, which might be the least commonly used case.
+The &lt;em&gt;special case&lt;/em&gt; is a specific form of the same problem which may be simpler or more complex.
+In the stance of a special case, the base case is often required to be built to have the scaffolding ready for future features.
+If the special case is built without regard to the base case then duplicated effort results.
+When little effort is necessary to shift directions, the MVP makes sense, otherwise it’s not a useful design strategy.&lt;/p&gt;
+&lt;h2&gt;Builder’s Conundrum&lt;/h2&gt;
+&lt;p&gt;A problem by which the &lt;em&gt;builder&lt;/em&gt; creates something to be consumed in a domain which the &lt;em&gt;builder&lt;/em&gt; is unfamiliar.
+Imagine being new to a very large code base and assigned a critical new feature with a hard deadline.
+The design choices around data or public API endpoints are long lasting, but it’s unlikely to be correct when incremental, measured progress is the goal.
+It’s unclear how customers use APIs and it’s also unfortunate when the shape of production data difficult to work with.&lt;/p&gt;
+&lt;p&gt;How can an engineer solve problems for customers when all the information that’s given is, &lt;em&gt;implement feature X?&lt;/em&gt;
+Understanding how customers use a product is critical to the design and implementation of new features.
+While the product team answers these questions, it’s valuable as an engineer to understand the context behind the solutions.
+Having context results in a few benefits;
+happier customers because solutions are designed for the problem they care about, rather than &lt;em&gt;using what was designed as a _workaround for the problem they care about&lt;/em&gt;;
+happier engineers because their autonomy increased, making judgment calls regarding the solution’s architecture, resulting in less effort and technical debt;
+happier designers and product managers because resulting features are higher quality and more in line with what clients expect.&lt;/p&gt;
+&lt;p&gt;Humans don’t absorb information, it’s curated and consumed.
+Understanding the limitations of MVPs increases the understanding of overall feature effort with respect to the product’s phase in its life-cycle.
+For engineers, distilling technical knowledge into easy summaries that can be consumed by non-technical people will help persuade peers in other functions to fight for the important things.
+As engineers, understanding key components of why this feature is being built or how this product is being used allows for better implementation strategies and insight for meaningful compromises.
+This makes life more comfortable since overly ambitious partner commitments are less likely to occur, if we posit that colleagues are not malicious, otherwise all bets are off.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[A Full and Comprehensive Style Test]]></title><description><![CDATA[Below is just about everything you’ll need to style in the theme. Check the source code to see the many embedded elements within paragraphs…]]></description><link>https://k-cross.github.io/posts/a-full-style-test/</link><guid isPermaLink="false">https://k-cross.github.io/posts/a-full-style-test/</guid><pubDate>Sun, 30 Sep 2018 07:03:47 GMT</pubDate><content:encoded>&lt;p&gt;Below is just about everything you’ll need to style in the theme. Check the source code to see the many embedded elements within paragraphs.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1&gt;Heading 1&lt;/h1&gt;
+&lt;h2&gt;Heading 2&lt;/h2&gt;
+&lt;h3&gt;Heading 3&lt;/h3&gt;
+&lt;h4&gt;Heading 4&lt;/h4&gt;
+&lt;h5&gt;Heading 5&lt;/h5&gt;
+&lt;h6&gt;Heading 6&lt;/h6&gt;
+&lt;hr&gt;
+&lt;h1&gt;Math&lt;/h1&gt;
+&lt;span class=&quot;katex-display&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;msup&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;e = mc^2&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.43056em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.8641079999999999em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.8641079999999999em;&quot;&gt;&lt;span style=&quot;top:-3.113em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;p&gt;This is probably the most common form, there is also &lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;msup&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mfrac&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/mfrac&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;c^2 = \frac{e}{m}&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.8141079999999999em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.8141079999999999em;&quot;&gt;&lt;span style=&quot;top:-3.063em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1.040392em;vertical-align:-0.345em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mopen nulldelimiter&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mfrac&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.695392em;&quot;&gt;&lt;span style=&quot;top:-2.6550000000000002em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:3em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mathdefault mtight&quot;&gt;m&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;top:-3.23em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:3em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;frac-line&quot; style=&quot;border-bottom-width:0.04em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;top:-3.394em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:3em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mathdefault mtight&quot;&gt;e&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.345em;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mclose nulldelimiter&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, &lt;a href=&quot;&quot;&gt;test link&lt;/a&gt; adipiscing elit. &lt;strong&gt;This is strong.&lt;/strong&gt; Nullam dignissim convallis est. Quisque aliquam. &lt;em&gt;This is emphasized.&lt;/em&gt; Donec faucibus. Nunc iaculis suscipit dui. 5&lt;sup&gt;3&lt;/sup&gt; = 125. Water is H&lt;sub&gt;2&lt;/sub&gt;O. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. &lt;cite&gt;The New York Times&lt;/cite&gt; (That’s a citation). &lt;span style=&quot;text-decoration:underline;&quot;&gt;Underline&lt;/span&gt;. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.&lt;/p&gt;
+&lt;p&gt;HTML and CSS are our tools. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. To copy a file type &lt;code class=&quot;language-text&quot;&gt;COPY filename&lt;/code&gt;. &lt;del&gt;Dinner’s at 5:00.&lt;/del&gt; &lt;span style=&quot;text-decoration:underline;&quot;&gt;Let’s make that 7&lt;/span&gt;. This &lt;del&gt;text&lt;/del&gt; has been struck.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Media&lt;/h2&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.&lt;/p&gt;
+&lt;h3&gt;Big Image&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;img/testimg1.jpg&quot; alt=&quot;Test Image&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.&lt;/p&gt;
+&lt;h3&gt;Small Image&lt;/h3&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;img/testimg2.jpg&quot; alt=&quot;Small Test Image&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Labore et dolore.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;List Types&lt;/h2&gt;
+&lt;h3&gt;Definition List&lt;/h3&gt;
+&lt;p&gt;Definition List Title
+: This is a definition list division.&lt;/p&gt;
+&lt;p&gt;Definition
+: An exact statement or description of the nature, scope, or meaning of something: &lt;em&gt;our definition of what constitutes poetry.&lt;/em&gt;&lt;/p&gt;
+&lt;h3&gt;Ordered List&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;List Item 1&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;List Item 2&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Nested list item A&lt;/li&gt;
+&lt;li&gt;Nested list item B&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;List Item 3&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Unordered List&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;List Item 1&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;List Item 2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Nested list item A&lt;/li&gt;
+&lt;li&gt;Nested list item B&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;List Item 3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Table&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;Table Header 1&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;Table Header 2&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;Table Header 3&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;Division 1&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Division 2&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Division 3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;Division 1&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Division 2&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Division 3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;Division 1&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Division 2&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Division 3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h2&gt;Preformatted Text&lt;/h2&gt;
+&lt;p&gt;Typographically, preformatted text is not the same thing as code. Sometimes, a faithful execution of the text requires preformatted text that may not have anything to do with code. Most browsers use Courier and that’s a good default — with one slight adjustment, Courier 10 Pitch over regular Courier for Linux users.&lt;/p&gt;
+&lt;h3&gt;Code&lt;/h3&gt;
+&lt;p&gt;Code can be presented inline, like &lt;code class=&quot;language-text&quot;&gt;&amp;lt;?php bloginfo(&amp;#39;stylesheet_url&amp;#39;); ?&amp;gt;&lt;/code&gt;, or using &lt;a href=&quot;http://jekyllrb.com/docs/templates/#code-snippet-highlighting&quot;&gt;jekyll’s highlight
+filter&lt;/a&gt; to
+highlight a block of code. Because we have more specific typographic needs for code, we’ll specify Consolas and Monaco ahead of the browser-defined monospace font.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;css&quot;&gt;&lt;pre class=&quot;language-css&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;#container&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; left&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;margin&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0 -240px 0 0&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 100%&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;hr&gt;
+&lt;h2&gt;Blockquotes&lt;/h2&gt;
+&lt;p&gt;Let’s keep it simple. Italics are good to help set it off from the body text. Be sure to style the citation.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Good afternoon, gentlemen. I am a HAL 9000 computer. I became operational at the H.A.L. plant in Urbana, Illinois on the 12th of January 1992. My instructor was Mr. Langley, and he taught me to sing a song. If you’d like to hear it I can sing it for you. — &lt;a href=&quot;http://en.wikipedia.org/wiki/HAL_9000&quot;&gt;HAL 9000&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;And here’s a bit of trailing text.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Text-level semantics&lt;/h2&gt;
+&lt;p&gt;HTML elements&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&quot;#&quot;&gt;a element&lt;/a&gt; example &lt;br&gt;
+The &lt;abbr&gt;abbr element&lt;/abbr&gt; and &lt;abbr title=&quot;Title text&quot;&gt;abbr element with title&lt;/abbr&gt; examples &lt;br&gt;
+The &lt;b&gt;b element&lt;/b&gt; example &lt;br&gt;
+The &lt;cite&gt;cite element&lt;/cite&gt; example &lt;br&gt;
+The &lt;code&gt;code element&lt;/code&gt; example &lt;br&gt;
+The &lt;del&gt;del element&lt;/del&gt; example &lt;br&gt;
+The &lt;dfn&gt;dfn element&lt;/dfn&gt; and &lt;dfn title=&quot;Title text&quot;&gt;dfn element with title&lt;/dfn&gt; examples &lt;br&gt;
+The &lt;em&gt;em element&lt;/em&gt; example &lt;br&gt;
+The &lt;i&gt;i element&lt;/i&gt; example &lt;br&gt;
+The &lt;ins&gt;ins element&lt;/ins&gt; example &lt;br&gt;
+The &lt;kbd&gt;kbd element&lt;/kbd&gt; example &lt;br&gt;
+The &lt;mark&gt;mark element&lt;/mark&gt; example &lt;br&gt;
+The &lt;q&gt;q element &lt;q&gt;inside&lt;/q&gt; a q element&lt;/q&gt; example &lt;br&gt;
+The &lt;s&gt;s element&lt;/s&gt; example &lt;br&gt;
+The &lt;samp&gt;samp element&lt;/samp&gt; example &lt;br&gt;
+The &lt;small&gt;small element&lt;/small&gt; example &lt;br&gt;
+The &lt;span&gt;span element&lt;/span&gt; example &lt;br&gt;
+The &lt;strong&gt;strong element&lt;/strong&gt; example &lt;br&gt;
+The &lt;sub&gt;sub element&lt;/sub&gt; example &lt;br&gt;
+The &lt;sup&gt;sup element&lt;/sup&gt; example &lt;br&gt;
+The &lt;var&gt;var element&lt;/var&gt; example &lt;br&gt;
+The &lt;u&gt;u element&lt;/u&gt; example&lt;/p&gt;
+* * *
+&lt;h2&gt;Embeds&lt;/h2&gt;
+&lt;p&gt;Sometimes all you want to do is embed a little love from another location and set your post alive.&lt;/p&gt;
+&lt;h3&gt;Video&lt;/h3&gt;
+&lt;p&gt;Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.&lt;/p&gt;
+&lt;p&gt;Culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
+&lt;div class=&quot;gatsby-resp-iframe-wrapper&quot; style=&quot;padding-bottom: 56.166666666666664%; position: relative; height: 0; overflow: hidden; margin-bottom: 1rem&quot; &gt; &lt;iframe src=&quot;//player.vimeo.com/video/103224792&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot; style=&quot; position: absolute; top: 0; left: 0; width: 100%; height: 100%; &quot;&gt;&lt;/iframe&gt; &lt;/div&gt;
+&lt;h3&gt;Slides&lt;/h3&gt;
+&lt;p&gt;Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.&lt;/p&gt;
+&lt;script async class=&quot;speakerdeck-embed&quot; data-id=&quot;585245d01ee1013238737e42b879906f&quot; data-ratio=&quot;1.77777777777778&quot; src=&quot;//speakerdeck.com/assets/embed.js&quot;&gt;&lt;/script&gt;
+&lt;p&gt;Culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
+&lt;h3&gt;Audio&lt;/h3&gt;
+&lt;p&gt;Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.&lt;/p&gt;
+&lt;iframe width=&quot;100%&quot; height=&quot;450&quot; scrolling=&quot;no&quot; frameborder=&quot;no&quot; src=&quot;https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/52891122&amp;amp;auto_play=false&amp;amp;hide_related=false&amp;amp;show_comments=true&amp;amp;show_user=true&amp;amp;show_reposts=false&amp;amp;visual=true&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;Culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
+&lt;h3&gt;Code&lt;/h3&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.&lt;/p&gt;
+&lt;p data-height=&quot;268&quot; data-theme-id=&quot;0&quot; data-slug-hash=&quot;bcqhe&quot; data-default-tab=&quot;result&quot; data-user=&quot;rglazebrook&quot; class=&apos;codepen&apos;&gt;See the Pen &lt;a href=&apos;http://codepen.io/rglazebrook/pen/bcqhe/&apos;&gt;Simple Rotating Spinner&lt;/a&gt; by Rob Glazebrook (&lt;a href=&apos;http://codepen.io/rglazebrook&apos;&gt;@rglazebrook&lt;/a&gt;) on &lt;a href=&apos;http://codepen.io&apos;&gt;CodePen&lt;/a&gt;.&lt;/p&gt;
+&lt;script async src=&quot;//assets.codepen.io/assets/embed/ei.js&quot;&gt;&lt;/script&gt;
+&lt;p&gt;Isn’t it beautiful.&lt;/p&gt;
+&lt;p&gt;_[HTML]: Hyper Text Markup Language
+_[CSS]: Cascading Style Sheets&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Elixir Impressions]]></title><description><![CDATA[I’ve had the luxury of programming with elixir for the last nine months.
+It’s been my first full-time experience utilizing a functional…]]></description><link>https://k-cross.github.io/posts/elixir_impressions/</link><guid isPermaLink="false">https://k-cross.github.io/posts/elixir_impressions/</guid><pubDate>Sat, 07 Jul 2018 07:36:24 GMT</pubDate><content:encoded>&lt;p&gt;I’ve had the luxury of programming with &lt;em&gt;elixir&lt;/em&gt; for the last nine months.
+It’s been my first full-time experience utilizing a functional language in a non-academic setting.
+&lt;em&gt;Elixir&lt;/em&gt; is a new language built on top of &lt;em&gt;erlang&lt;/em&gt;.
+It looks similar to &lt;em&gt;ruby&lt;/em&gt; but the semantics are quite different.&lt;/p&gt;
+&lt;p&gt;Coming from a &lt;em&gt;c&lt;/em&gt; and &lt;em&gt;python&lt;/em&gt; background, the language has been expressive, powerful, and refreshingly different.
+Its tooling makes it a pleasurable experience to work with and easy to get started on any new project.
+But the real fun comes from the language itself.
+Parallel, concurrent and distributed programming semantics are top notch and built directly into the language or provided by standard libraries.
+Have one process that needs to talk to another? Just create a simple &lt;code class=&quot;language-text&quot;&gt;GenServer&lt;/code&gt;.
+Need to create a K/V store? There’s &lt;code class=&quot;language-text&quot;&gt;ETS&lt;/code&gt;.
+Does that store need to be available across multiple nodes and persist? There’s &lt;code class=&quot;language-text&quot;&gt;mnesia&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;There are so many good solutions that are readily available to access with minimal effort.
+Most modern web applications utilize these tools, yet most languages only think about these requirements as afterthoughts.
+Applications can scale without the immediate and common constraints of other languages, making it easier for startups to focus on the problem domain.
+It’s less common to need specialized solutions like &lt;code class=&quot;language-text&quot;&gt;redis&lt;/code&gt; or &lt;code class=&quot;language-text&quot;&gt;kafka&lt;/code&gt; since similar tooling’s baked into &lt;em&gt;elixir&lt;/em&gt; already.
+In many cases, the language tooling is the desired approach because the application can be built around business logic rather than infrastructure choices, creating less operational burdens.
+It also is closer to the business logic in a natural way which is less common in other languages trying to respect domain boundaries.
+There are still times when reaching for an external tool is required and the libraries that wrap common tools to be consumed in the language are either really good and well supported or completely lacking.
+Since &lt;em&gt;erlang&lt;/em&gt; is in the picture, it’s really easy to natively call and use &lt;em&gt;erlang&lt;/em&gt; libraries directly making the language far more mature in tooling than most at a similar age.&lt;/p&gt;
+&lt;p&gt;The language is also infinitely flexible as it includes &lt;em&gt;macros&lt;/em&gt;, a form of &lt;em&gt;metaprogramming&lt;/em&gt;, by which the language can be extended by anyone.
+Tired of writing the same boiler-plate code over and over? Write a macro!
+The amount of thought that goes into the everyday usage of the language is also nice, since there’s a fresh take on doing things the &lt;code class=&quot;language-text&quot;&gt;erlang&lt;/code&gt; way.
+Case in point is the &lt;code class=&quot;language-text&quot;&gt;with&lt;/code&gt; statement, its inclusion wasn’t necessary but certainly makes simple patterns much easier to deal with and manage.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;elixir&quot;&gt;&lt;pre class=&quot;language-elixir&quot;&gt;&lt;code class=&quot;language-elixir&quot;&gt;error_tuple &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token atom symbol&quot;&gt;:error&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;function isn&apos;t fun&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Before `with`&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; fun_fun_function&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token atom symbol&quot;&gt;:ok&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; val&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; fun_function&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;val&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token atom symbol&quot;&gt;:ok&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; val2&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt; do_stuff_with&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;val&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; val2&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      _ &lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt; error_tuple
+    &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+  _ &lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt;
+    error_tuple
+&lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Afer `with`&lt;/span&gt;
+with &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token atom symbol&quot;&gt;:ok&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; val&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;-&lt;/span&gt; fun_fun_function&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token atom symbol&quot;&gt;:ok&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; val2&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;-&lt;/span&gt; fun_function&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;val&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+  do_stuff_with&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;val&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; val2&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt;
+  _ &lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt; error_tuple
+&lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That’s far easier to grok both syntactically and by length.
+The &lt;code class=&quot;language-text&quot;&gt;with&lt;/code&gt; implementation is just a macro that expands into nested &lt;code class=&quot;language-text&quot;&gt;case&lt;/code&gt; statements under the hood.
+It’s possible to keep this looking pretty by making function wrappers for case statements, but that’s essentially what &lt;code class=&quot;language-text&quot;&gt;with&lt;/code&gt; does in a generic way already.
+Using the &lt;code class=&quot;language-text&quot;&gt;with&lt;/code&gt; statement is elegant for long chains of validation statements, making the code’s intent clear.&lt;/p&gt;
+&lt;p&gt;Personally, the benefits of &lt;em&gt;elixir&lt;/em&gt; extend beyond code.
+It’s allowed me to fully switch into the mindset of functional programming.
+It’s opened an entirely new paradigm of problem solving tools that have been mostly better than their OOP alternatives.&lt;/p&gt;
+&lt;p&gt;All things considered, &lt;em&gt;elixir&lt;/em&gt; is an amazing language with great tooling built on top of the incredibly reliable &lt;em&gt;BEAM&lt;/em&gt;.
+The community is also very welcoming and friendly.
+If you’re looking for a new language or skill to pick up, I urge you to try &lt;em&gt;elixir&lt;/em&gt;.
+It is a great way to expand your knowledge base and understanding of a variety of topics.&lt;/p&gt;
+&lt;h2&gt;Updates for 2020&lt;/h2&gt;
+&lt;p&gt;I’m still using &lt;em&gt;elixir&lt;/em&gt; in 2020 and it’s still an amazing language.
+The tooling keeps improving and the community is getting larger which means the packages available are also increasing.
+Utilizing the actor model allowed our programs to run very reliably with minimal issue, while maximizing the ability to parallel process requests at a granular level.
+A similar workload and application that was written in &lt;em&gt;PHP&lt;/em&gt; and serves less overall traffic requires upwards of 20 AWS instances.
+Contrasting that to our current &lt;em&gt;elixir&lt;/em&gt; application, our maximum autoscale group now reaches 4 AWS instances, all of which are smaller and cheaper instance types by comparison.
+Using &lt;em&gt;elixir&lt;/em&gt; actively saves money on &lt;em&gt;operational expenses&lt;/em&gt; because it utilizes resources effectively.&lt;/p&gt;
+&lt;p&gt;One caveat, I mentioned in the past about using &lt;code class=&quot;language-text&quot;&gt;mnesia&lt;/code&gt; and hinted at using &lt;code class=&quot;language-text&quot;&gt;distributed erlang&lt;/code&gt;.
+Each of those tools can work but they are specialized and should probably be avoided.
+Distributed computation is a hard problem and these tools were built with different use cases than the modern web.
+Knowing what the trade-offs are is invaluable since there are probably better options available for distributed computation.
+This will probably change over time but as of today I cannot in good conscience recommend the out-of-box tooling for this.&lt;/p&gt;
+&lt;p&gt;The language is still great for a large variety of use cases and there many things that make it a joy to work with.
+The actor model is baked into the language itself and feels like it belongs directly in the language itself, unlike many actor frameworks in other languages.
+At the end of the day, its possible to make any language work for the problem at hand.
+For the majority of non-computationally heavy workloads, &lt;em&gt;elixir&lt;/em&gt; still remains my goto language, even in a distributed computing world!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Abstractions]]></title><description><![CDATA[Correct abstractions in programming are hard to make for the future case.
+Often, there is not enough data at the start of a project when the…]]></description><link>https://k-cross.github.io/posts/abstractions/</link><guid isPermaLink="false">https://k-cross.github.io/posts/abstractions/</guid><pubDate>Wed, 04 Jul 2018 07:06:38 GMT</pubDate><content:encoded>&lt;p&gt;Correct abstractions in programming are hard to make for the future case.
+Often, there is not enough data at the start of a project when the problem space is not well understood.
+This makes development harder due to the volatility of projects, showing that it’s unlikely to make meaningful predictions further into the future.
+So how then, should sustainable programs be built?
+Optimizing for code deletion is one strategy worth utilizing since it’s forward moving flexibility that’s the real goal.
+In essence, being unconstrained from the past, the future can be built unencumbered, thus reducing effort.
+The following emergent traits tend to result:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;a modular type of architecture&lt;/li&gt;
+&lt;li&gt;extending features takes less effort&lt;/li&gt;
+&lt;li&gt;code base is more optimized for the current running state rather than the predicted future state&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Grabbing an Axe&lt;/h2&gt;
+&lt;p&gt;One of the more satisfying things in programming is utilizing a razor-sharp axe and cutting a code base down to size!
+Grokking a system is far easier when it’s simple, well designed, and small.
+How better, to understand a system than by focusing on cutting stuff out of it?
+When emphasis is placed on deletion it’s paramount to understand the system’s complexity and nuances at the boundaries.
+This calls for the need to have equivalency tests available to the systems that are intended to be replaced.
+Equivalence testing is the only real hope to allowing a proper rewrite.
+It’s an uneasy feeling to delete code that’s not well understood.
+Being able to verify that those changes do what’s expected is critical — the path to the new system needs to be trustworthy.
+There’s a fine line between tests that mock what you expect versus checking the expected behavior of a &lt;em&gt;system/function/method&lt;/em&gt;.
+Getting the system behavior correct is mandatory, even the undesirable behavior that is thought of as broken internally, because customers probably rely on the broken behavior making them features.&lt;/p&gt;
+&lt;p&gt;Deletion promotes modularity and the clarity of application contracts.
+Being able to remove things comfortably means that the core logic of isolated features are successfully decoupled from the core logic of other components of the system.
+Deleting a feature should cause its tests to fail, but those tests ideally wouldn’t affect the behavior of other tests other than related subcomponent.
+Tests reveal a starting point in which to add new features once code has been deleted, or at least where more care needs to be placed.
+Tests pave the way to automate and verify the behavior of what deletion does.
+Optimizing for deletion enforces modularity because scaling quickly in a large code base demands it.
+The easiest way to verify integrity is by isolation, testing isolated components, and then testing the interoperability of the system as a whole.
+In order to do this reliably, avoid side-effects, as they’ll cause additional complexity as well as combinatorial growth of the testable problem space.
+Modularity is the core component in optimizing for deletion.
+It allows for the most flexibility during the reimplementation a feature since the interfaces remain largely unchanged.
+For instance, a billing system shouldn’t be tied to a metric system other than by interfaces, otherwise swapping out one or the other makes it a very time intensive project and the end result will almost certainly be a modular system that replaces it.
+Not convinced?
+Imagine that the billing system is a third-party service?
+What happens when that third-party changes its usage policy in a highly undesirable way?
+How much effort is required to swap implementations?&lt;/p&gt;
+&lt;h2&gt;Embracing the Void&lt;/h2&gt;
+&lt;p&gt;What does the absence of code buy?
+The flexibility to extend the system with fewer legacy restrictions.
+To some degree, legacy requirements are always going to linger, but they should be external customer facing legacy issues, not internal system constraints.
+APIs are very hard to not be constrained by.
+New features are much easier to write when all the other interfaces that they’ll rely on can also be changed and modified easily.
+With a modular code base, new features can be developed and tested in isolation and then added into the system through an interface.&lt;/p&gt;
+&lt;p&gt;Optimizing for deletion reduces the scope of development to the minimal requirements rather than predictions.
+The consequences of deletion create some very desirable traits.
+Their drawbacks come from the necessity to perform deletions reliably, which are not trivial.&lt;/p&gt;
+&lt;h2&gt;Vectors&lt;/h2&gt;
+&lt;p&gt;This idea is not without its drawbacks.
+Initial development velocity for example, is not a trait since it’s impossible to rebuild nontrivial features reliably.
+Taking this philosophy to its extremes, like any other philosophy, is inane.
+Feature implementations are like vector math, where there are different paths that can be taken but there’s a single optimal route from point A to point B.
+Keeping the mentioned traits in mind helps strike a balance as a guide post to do it properly.
+Improper utilization can occur when a feature is easy enough to extend rather than write from scratch.
+Too many &lt;em&gt;time/space&lt;/em&gt; optimizations probably results in very inflexible code which can easily become coupled with other components for the sake of efficiency.
+Sometimes it’s warranted, sometimes it’s not.
+While it’s a good idea to think about current use cases, obvious future cases like extending an API, should remain flexible enough to not have to be rewritten every time a feature is requested.&lt;/p&gt;
+&lt;p&gt;At the end of the day,&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;git&quot;&gt;&lt;pre class=&quot;language-git&quot;&gt;&lt;code class=&quot;language-git&quot;&gt;83 files changed, 1716 insertions(+), 19478 deletions(-)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;if this doesn’t put a smile on your face, you’re probably a masochist.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;NOTE: when referring to testing I mean that in the general sense, not specifically unit testing&lt;/em&gt;&lt;/p&gt;</content:encoded></item></channel></rss>
