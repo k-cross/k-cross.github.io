@@ -128,11 +128,10 @@ That said, the simplicity of having &lt;code&gt;liveview&lt;&#x2F;code&gt; for t
 The entire stack is in &lt;code&gt;Elixir&lt;&#x2F;code&gt; except for the generated JS that&#x27;s run and served by &lt;code&gt;phoneix&lt;&#x2F;code&gt; itself.
 It&#x27;s pretty easy to make an IP address publicly exposed so asking a doctor to go to a particular link so they can get some updates or run some queries live is pretty trivial.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;final-thoughts&quot;&gt;Final Thoughts&lt;a class=&quot;zola-anchor&quot; href=&quot;#final-thoughts&quot; aria-label=&quot;Anchor link for: final-thoughts&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
-&lt;p&gt;If you&#x27;re interested in the project, it&#x27;s &lt;a rel=&quot;nofollow noreferrer&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;k-cross&#x2F;pulse_oximeter&quot;&gt;here&lt;&#x2F;a&gt;.
-It was built for my son to make his health care better and my family&#x27;s lives easier.
+&lt;p&gt;This was built for my son to make his health care better and my family&#x27;s lives easier.
 I never got to fully appreciate all the features and work I put into it, but I tried to make something simple and useful for technically inclined kindred spirits alike.
 These features were requested by others and I genuinely hope that they keep helping people in need.&lt;&#x2F;p&gt;
-&lt;p&gt;I don&#x27;t think people shouldn need to have additional equipment and gear in order to get data from these devices, they need to be made with both doctors and patients in mind.
+&lt;p&gt;I don&#x27;t think people should need to have additional equipment and gear in order to get data from these devices, they need to be made with both doctors and patients in mind.
 If I was harsh on the doctors in this article about this device, please know it was just about the recommended device and not an insult to their capability.
 We had an incredible team of doctors that were all wonderful to interact with.
 They were kind and caring and often went beyond the scope of their duties to make sure our son&#x27;s needs were met.
