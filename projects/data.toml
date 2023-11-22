@@ -1,0 +1,15 @@
+[[project]]
+name = "Pulse Oximeter Monitor"
+desc = "A custom interface to the Masimo RAD8 pulse oximeter"
+tags = ["engineering", "health"]
+links = [
+  { name = "repo", url = "https://github.com/k-cross/pulse_ox" },
+]
+
+[[project]]
+name = "Cloud Atlas"
+desc = "Cloud infrastructure utility to graph infrastructure in AWS"
+tags = ["engineering", "infrastructure", "cloud"]
+links = [
+  { name = "repo", url = "https://github.com/k-cross/cloud-atlas" },
+]
