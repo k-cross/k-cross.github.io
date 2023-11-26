@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+	<title>KMC</title>
+	<subtitle>very interesting website</subtitle>
+	<link href="https://k-cross.github.io/feed.xml" rel="self" type="application/atom+xml"/>
+    <link href="https://k-cross.github.io"/>
+	<updated>2021-03-08T00:00:00+00:00</updated>
+	<id>https://k-cross.github.io/feed.xml</id>
+	<entry xml:lang="en">
+		<title>Pulse Oximeter Monitor Project</title>
+		<published>2021-03-08T00:00:00+00:00</published>
+		<updated>2021-03-08T00:00:00+00:00</updated>
+		<link href="https://k-cross.github.io/posts/spo2/" type="text/html"/>
+		<id>https://k-cross.github.io/posts/spo2/</id>
+		<content type="html">&lt;p&gt;When the doctors left us with a medical device to monitor the blood oxygen levels of my newborn son, the less than desirable interface converted us into zombies.
+Alerts beeped when SPO2 or BPM reached specific thresholds and nothing else.
+The device, the &lt;em&gt;Masimo RAD8&lt;&#x2F;em&gt; contains space to store data except no patient based mechanisms to read the results it collects.&lt;&#x2F;p&gt;
+&lt;p&gt;It&#x27;s crazy!
+Medical professionals leave patients with a device where caregivers can&#x27;t monitor nor track progress over long periods of time;
+preventing the collection of valuable data doctors require to inform their decisions and care plans.
+Placing the blame on doctors is unfair since these devices and their options are limited by supply and insurance companies.
+The inconvenient part stems from infant pulse oximeters, either costing a small fortune for a medical grade one or non-medical grade ones not taken seriously by doctors.
+We purchased the &lt;em&gt;wellvue&lt;&#x2F;em&gt; which was an order of magnitude more convenient.
+The battery operated machine lasted through the night, wireless, gathering data, and printed out summaries over single recording periods.
+Data collection and reporting wasn&#x27;t ideal but provided insight into the patient&#x27;s overall progress, for example: patient was below 92% SPO2 for 12.5 minutes over a 10 hour period.
+It was impossible to track the reliability of the device and the accuracy of the recorded measurements.
+We ended up returning the device because of its unreliability and our doctors didn&#x27;t trust it.&lt;&#x2F;p&gt;
+&lt;p&gt;When our insurance company signed off on renting the &lt;em&gt;RAD8&lt;&#x2F;em&gt;, the pulmonary team was ecstatic, but the enthusiasm in my eyes quickly drained after figuring out how much of a burden it was to use.
+The &lt;em&gt;RAD8&lt;&#x2F;em&gt; advertises storing 72 hours worth of data but specialized software is required to retrieve it.
+Visiting the doctors office to read data off the device with the given frequency wasn&#x27;t sustainable.
+The doctors expected us to record alerts by hand as they didn&#x27;t mention any method for data retrieval.
+Manual data recording is too error prone of a task, particularly when the best time to gather reliable information is when both patient and parent are sleeping.
+This was worse in every way to the &lt;em&gt;Wellvue&lt;&#x2F;em&gt;, with the exception of its reliability.
+I took action once noticing the serial interface on its back.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;project-goals&quot;&gt;Project Goals&lt;a class=&quot;zola-anchor&quot; href=&quot;#project-goals&quot; aria-label=&quot;Anchor link for: project-goals&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;The project had modest ambitions and I was on a timeline through the initial implementation cycle for this to be useful for my family.
+It needed to:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;record readings in a centralized system that can be queried&lt;&#x2F;li&gt;
+&lt;li&gt;contain a web interface (in order to monitor and query from any device)&lt;&#x2F;li&gt;
+&lt;li&gt;perform queries to answer questions about SPO2 levels&lt;&#x2F;li&gt;
+&lt;li&gt;display live numerical readings (enables remote monitoring)&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Recreating an interface similar to hospital displays was ideal but the need to get the basics completed to answer the doctors&#x27; questions outweighed those ambitions.
+The extended goals:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot; checked=&quot;&quot;&#x2F;&gt;
+graph historical data to get visual context showing trends&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot; checked=&quot;&quot;&#x2F;&gt;
+add live visualizations&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&#x2F;&gt;
+in-depth queries and query parameters&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&#x2F;&gt;
+extendible to include more medical grade pulse oximeters&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&#x2F;&gt;
+customizable data storage (MySQL &#x2F; PostgreSQL &#x2F; Mnesia)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;a-journey-through-a-proprietary-wonderland&quot;&gt;A Journey through a Proprietary Wonderland&lt;a class=&quot;zola-anchor&quot; href=&quot;#a-journey-through-a-proprietary-wonderland&quot; aria-label=&quot;Anchor link for: a-journey-through-a-proprietary-wonderland&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;After digging, Philips has a proprietary protocol named &lt;em&gt;vuelink&lt;&#x2F;em&gt; that gives the most insightful data to read from the device.
+With time short, I did not decode the protocol (wish I did).
+Instead, I used the basic &lt;em&gt;ASCII&lt;&#x2F;em&gt; standards which provided the basic yet important data: &lt;em&gt;BPM, SPO2, Perfusion Index&lt;&#x2F;em&gt; over standard serial protocols.
+&lt;em&gt;ASCII&lt;&#x2F;em&gt; doesn&#x27;t contain the &lt;em&gt;Signal IQ&lt;&#x2F;em&gt; information that&#x27;s viewable on the physical display as &lt;em&gt;SIQ&lt;&#x2F;em&gt;, measuring the confidence level of individual readings.
+&lt;em&gt;SIQ&lt;&#x2F;em&gt; makes me want to reverse engineer the &lt;em&gt;vuelink&lt;&#x2F;em&gt; protocol, because it creates the possibility to filter for high confidence readings during analysis.
+Watching these machines at hospitals, they display a variety of waveforms and display the changes to them indicating measurement stability.
+That type of data would enable more sophisticated waveform analysis, but I needed something quick making it outside the project&#x27;s scope.&lt;&#x2F;p&gt;
+&lt;p&gt;The documentation describing device setup was less than desirable.
+First, I had to figure out how to unlock it.
+The medical supply company &amp;quot;set the prescription&amp;quot; and then do the wonderful work of locking the device.
+This makes settings unadjustable, including the noise level of alerts.
+These are loud and can wake up a sleeping infant which exacerbates existing medical issues when they need to rest.
+Step one was getting the instruction manual and figuring out the crazy way to unlock the &lt;em&gt;RAD8&lt;&#x2F;em&gt;.
+Next, the serial interface needed configuration to function properly.
+Once accomplished, the official manual stated it take measurements every 500ms, which wasn&#x27;t true.
+I noticed this while analyzing data where my original calculations to get the duration of measurements was:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+duration = \frac{\sum_{reading=1}^{n} 1}{\frac{1_{reading}}{500_{ms}}} = \frac{numOfReadings}{readingRate}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;This result allowed us to generate the amount of time recorded directly, but it was a lie.
+Checking the database timestamps, the &lt;em&gt;reading rate&lt;&#x2F;em&gt; was actually $\frac{1_{reading}}{1_s}$...
+It was a lot of fun to discover and tell the pulmonary doctors the wrong results for the first two days because of bad documentation 🤦🏻‍♂️.
+There were other issues that were more pressing at the time which made me realize the incorrect calculation later than I would have liked.
+You might be wondering, was it the polling rate?
+No, the serial device is immediately read and asked for more information after it returns with a result, timing out at $5_s$ for a reading.
+The last bit of proprietary fun came from the information display and error codes.
+These were bit masks that were represented in ASCII as hexadecimal bit-masks.
+I copied the common ones from a python project which was a great help in the creation of this application.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;implementation-specifics&quot;&gt;Implementation Specifics&lt;a class=&quot;zola-anchor&quot; href=&quot;#implementation-specifics&quot; aria-label=&quot;Anchor link for: implementation-specifics&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;The project utilizes the Elixir programming language because of its immediate familiarity and its failure handling mechanisms.
+The actor model that erlang provides to supervise processes is ideal for handling connection issues and retry logic.
+With all the built-in features of erlang, reconnecting devices came for free because of the supervision strategies for processes!
+The serial connection was handled under a supervised process so if disconnects or unhandled errors occur, the supervisor keeps retrying to restore the task to a stable state.
+Users can use the device in the way they need to at the time they need to.
+It doesn&#x27;t matter if the device is turned off, unplugged, or can&#x27;t communicate with the OS.
+The supervisor keeps retrying and spins up new processes errors are encountered, repeatedly attempting to stabilize.&lt;&#x2F;p&gt;
+&lt;p&gt;The &lt;code&gt;Nerves UART&lt;&#x2F;code&gt; library is used to handle serial connections.
+Connecting to the &lt;em&gt;RAD8&lt;&#x2F;em&gt; was simple since the only concern was finding the proper serial device to communicate with.
+Using a heuristic that worked on both MacOS and Ubuntu, which was grabbing the last result in the list of serial devices achieved the goal.
+If there are issues connecting to the RAD8, it will certainly be from this convenient hack.
+Its purpose, automated connection handling upon reconnects since the serial device name can change.
+Using the web framework &lt;code&gt;phoenix&lt;&#x2F;code&gt; was really straight forward and easy to utilize.
+I wanted an excuse to use &lt;code&gt;liveview&lt;&#x2F;code&gt; in order to see how things worked to do server side rendering for the first time and that was its own adventure.
+All of the logic designed into the web application is built around &lt;code&gt;phoenix liveview&lt;&#x2F;code&gt; and the charts and graphs were built using &lt;code&gt;contex&lt;&#x2F;code&gt; which generates an &lt;code&gt;svg&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Testing and development was a pain at first.
+It required having the physical device connected.
+Building a fake data input system that randomly generates data was the best way to rapidly increase productively while still being able to use the &lt;em&gt;RAD8&lt;&#x2F;em&gt;.
+The data storage mechanism was initially intended to be provided by the application directly via &lt;code&gt;Mnesia&lt;&#x2F;code&gt; which is an erlang backed database of sorts.
+For the sake of speed, I had to forgo this choice and require that users setup a &lt;em&gt;Postgresql&lt;&#x2F;em&gt; database instead.
+Not requiring a RDBMS would have been awesome for simplicity but ultimately, anyone using this application is going to need to be savvy enough to install a RDBMS anyways.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;retrospective-on-technological-choices&quot;&gt;Retrospective on Technological Choices&lt;a class=&quot;zola-anchor&quot; href=&quot;#retrospective-on-technological-choices&quot; aria-label=&quot;Anchor link for: retrospective-on-technological-choices&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;Using Elixir was a good fit for the project overall.
+It was reliable and has good integration with libraries that can talk with embedded hardware.
+Using phoenix as the web framework was fine and honestly, probably any web framework would have been sufficient.
+I was able to use &lt;code&gt;phoenix liveview&lt;&#x2F;code&gt; and dig my teeth into it for the first time.
+I&#x27;m not a &lt;code&gt;javascript&lt;&#x2F;code&gt; developer and I prefer doing things on the backend so I&#x27;ve put off learning JS for a long time.
+By using &lt;code&gt;liveview&lt;&#x2F;code&gt; I have been able to put off learning JS longer but honestly, I had to learn a lot more about a framework then I would have liked.
+It wasn&#x27;t particularly clear what I was doing at times and there&#x27;s a lot of magic involved in variable naming and configuring things to work well with &lt;code&gt;liveview&lt;&#x2F;code&gt;.
+I think overall it was faster to setup than running the frontend in JS but I don&#x27;t know if I&#x27;ll ever do that again.&lt;&#x2F;p&gt;
+&lt;p&gt;To me, &lt;code&gt;liveview&lt;&#x2F;code&gt; seems to shine for server side control of visual updates and information.
+This project was perfect because all I wanted to do was display and update information with minimal interaction.
+If this were a project that needed a lot more frontend involvement, I would definitely choose JS over &lt;code&gt;liveview&lt;&#x2F;code&gt; simply because JS is the domain of the frontend.
+No matter how much backend engineers want to complain about it and avoid it, JS is a very capable language in the environment it was intended to run in.
+I say this with love for both sides, the &lt;code&gt;phoenix liveview&lt;&#x2F;code&gt; project is pretty incredible that backend developers have the ability to make more frontend things possible that are smooth and dynamic.
+At the same time, is it really worth the effort of learning another framework with more limited use cases where an escape hatch into JS is needed for complex UI interactions?
+Maybe, but after this project, if I need to do frontend work again it will most likely be in raw JS.
+Overall, if I were to create a serious project that I intended to support long term, I&#x27;d be sticking with JS.
+The case for &lt;code&gt;liveview&lt;&#x2F;code&gt; for me personally shines where the backend needs to control the frontend.
+That said, the simplicity of having &lt;code&gt;liveview&lt;&#x2F;code&gt; for the management of this project was awesome.
+The entire stack is in &lt;code&gt;Elixir&lt;&#x2F;code&gt; except for the generated JS that&#x27;s run and served by &lt;code&gt;phoneix&lt;&#x2F;code&gt; itself.
+It&#x27;s pretty easy to make an IP address publicly exposed so asking a doctor to go to a particular link so they can get some updates or run some queries live is pretty trivial.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;final-thoughts&quot;&gt;Final Thoughts&lt;a class=&quot;zola-anchor&quot; href=&quot;#final-thoughts&quot; aria-label=&quot;Anchor link for: final-thoughts&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;This was built for my son to make his health care better and my family&#x27;s lives easier.
+I never got to fully appreciate all the features and work I put into it, but I tried to make something simple and useful for technically inclined kindred spirits alike.
+These features were requested by others and I genuinely hope that they keep helping people in need.&lt;&#x2F;p&gt;
+&lt;p&gt;I don&#x27;t think people should need to have additional equipment and gear in order to get data from these devices, they need to be made with both doctors and patients in mind.
+If I was harsh on the doctors in this article about this device, please know it was just about the recommended device and not an insult to their capability.
+We had an incredible team of doctors that were all wonderful to interact with.
+They were kind and caring and often went beyond the scope of their duties to make sure our son&#x27;s needs were met.
+All the hatred in this article is directed at medical institutions that treat patients as a cost of business instead of humans that need care.&lt;&#x2F;p&gt;
+&lt;p&gt;This is probably as far as I&#x27;ll go with the project, but I&#x27;ll probably end up experimenting with some other strategies as a learning exercise which may enhance its reliability.
+Unfortunately, due to the technical limitations of the project requiring users to buy a serial cable and setting up the RAD8, putting additional effort into the ease of use with software setup wouldn&#x27;t enable any additional non-technical users.
+In short, it&#x27;s as easy as it&#x27;s going to get but I wish it was accessible to a wider audience of patients and caregivers.
+Thanks for visiting!&lt;&#x2F;p&gt;
+</content>
+	</entry>
+	<entry xml:lang="en">
+		<title>Three Phase Commit Data Migrations</title>
+		<published>2018-12-09T00:00:00+00:00</published>
+		<updated>2020-07-16T00:00:00+00:00</updated>
+		<link href="https://k-cross.github.io/posts/3pc/" type="text/html"/>
+		<id>https://k-cross.github.io/posts/3pc/</id>
+		<content type="html">&lt;p&gt;Paving a path towards continuous delivery and zero-downtime deployments is a challenging pursuit especially when each project employs its own strategy.
+One generic solution that is at the heart of this article was inspired by the three-phase-commit.
+Its origin stems from &lt;em&gt;computer networking&lt;&#x2F;em&gt; as a way to perform the non-blocking version of the two-phase commit protocol, described as:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;voting phase: a coordinator prepares all transaction participants, signaling to proceed until either committing or aborting.&lt;&#x2F;li&gt;
+&lt;li&gt;commit phase: depending on participant votes, the coordinator decides to &lt;em&gt;commit&lt;&#x2F;em&gt; if all voted &lt;em&gt;agree&lt;&#x2F;em&gt; otherwise it &lt;em&gt;aborts&lt;&#x2F;em&gt; and notifies all participants.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Adapting these to web applications, the &lt;em&gt;contention&lt;&#x2F;em&gt; for &lt;em&gt;resources&lt;&#x2F;em&gt; occurs with respect to databases and long-lived state.
+Taking downtime is commonly due to blocking operations from locking mechanisms over shared resources.
+To ensure the stability of an application&#x27;s environment while updating, taking downtime will guarantee &lt;em&gt;state&lt;&#x2F;em&gt; remains consistent for all services and users.
+Since causes for downtime can be determined in advance, using more sophisticated approaches to eliminate it is possible.
+Executing data migrations as three distinct phases is a generic approach that anyone can use as a stone to pave in the road to zero-downtime deployments.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;assemble-phase&quot;&gt;Assemble Phase&lt;a class=&quot;zola-anchor&quot; href=&quot;#assemble-phase&quot; aria-label=&quot;Anchor link for: assemble-phase&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;The first phase involves the creation of new entities which usually means new tables or columns with respect to a database.
+When a new entity replaces an old one the use of dual writes and idempotent operations is an effective strategy.
+Dual writes are when both old and new entities are recorded in the database alongside the running application.
+It allows changes to happen in production while still being able to roll-back those changes to the old model should the need arise.
+This increases the reliability that the updates work as intended and without issue.
+Making the new entity operations idempotent is also very valuable in many cases as we&#x27;ll find in the next phase.
+For an application, data structures that replace old ones are a common source failure.
+By the creation of an idempotent legacy handler, it&#x27;s possible to create a version chain that&#x27;s able to turn an old structure into a new one reliably.
+Having multiple versions of data and data structures is not ideal, but it is not always practical to migrate all data in one shot.
+By having a type of JIT version update in place, it&#x27;s possible to avoid complexities around more sophisticated data migrations.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;manipulation-phase&quot;&gt;Manipulation Phase&lt;a class=&quot;zola-anchor&quot; href=&quot;#manipulation-phase&quot; aria-label=&quot;Anchor link for: manipulation-phase&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;Back-filling data into a newly created column is the essence of this phase.
+Processing data only requires a read from an old entity and a write to the new one.
+How those writes are performed matters greatly.
+The trivial approach to writing a data migration is to do everything in one shot with no roll-back plan.
+It&#x27;s not always possible or at least practical to build database roll-back plans.
+When failures occur with single pass migrations, they can be very expensive.
+The database might have locked some critical columns with a large number of rows.
+So whatever the downtime is for a successful operation always needs to be planned to be double just in case a rollback is required.&lt;&#x2F;p&gt;
+&lt;p&gt;Alternatively, when writing operations are made idempotent the application can be made eventually consistent.
+Since dual writing new data is already occurring, backfilling old data into the new format using an idempotent write operation allows the application to fail safely.
+A write might fail for many reasons -- junk data, unexpected formats, and mishandled cases.
+Imagine having the first $$75%$$ of a migration be performed and then fail on a single valid case.
+There are a few potential issues here:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;the backfill task is performed as a migration&lt;&#x2F;li&gt;
+&lt;li&gt;the backfill task is performed as a transaction&lt;&#x2F;li&gt;
+&lt;li&gt;the backfill task is not idempotent&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;The first case has the flaw of downtime.
+The second issue may be computationally expensive and infeasible to repeatedly perform.
+The last issue creates potential for duplicated data during the backfill process.
+Using the idempotent strategy is more manageable since backfilling doesn&#x27;t need to occur all at once.
+If multiple write operations do happen, they end in the same result.
+Flexible data migrations are the result.
+Migrations can be written so that they&#x27;re performed in one shot or done as batch jobs.
+The failure handling mechanisms can also be as simple or complex as desired.
+For instance, using a trivial approach to retry the entire backfill or a sophisticated one to pick up where it left off.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;dismantle-phase&quot;&gt;Dismantle Phase&lt;a class=&quot;zola-anchor&quot; href=&quot;#dismantle-phase&quot; aria-label=&quot;Anchor link for: dismantle-phase&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;This is equivalent to dropping an entity from the database. 
+With the completion of the &lt;em&gt;manipulation phase&lt;&#x2F;em&gt;, getting verification that the backfill is complete is necessary to confirm the entity is no longer required.
+All the code that handled the updates and branching paths that resulted from different version functions can be removed too.
+There&#x27;s no better feeling as an engineer than reducing all the complexity of a system by removing the bloat and scaffolding that&#x27;s no longer needed.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;all-good-things&quot;&gt;All Good Things&lt;a class=&quot;zola-anchor&quot; href=&quot;#all-good-things&quot; aria-label=&quot;Anchor link for: all-good-things&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;A final word of caution.
+Application code updates only work reliably when the state of the application can be rebuilt and executed in the event of a crash.
+One approach is to build a history from immutable states which can be replayed, basically a log in the way some file systems work.
+If the behavior of an application is determined by global state that cannot be restored reliably, larger problems exist and this strategy is unlikely to help.
+Other problems that were not covered include the existence of operating on data across different databases.
+This is a much harder distributed systems problem to solve but using idempotent operations is a great place to start.&lt;&#x2F;p&gt;
+&lt;p&gt;The three phase commit strategy has worked on production systems for a few years in a variety of different scenarios.
+Previously, deployments would happen during the odd hours of evening in order to cause minimal disruption.
+Zero-downtime deployments can happen during sane working ours bringing joy to engineers, more certainty to stake holders, and a better experience for customers.
+All good things result for all parties that have a lot to loose when things go wrong.&lt;&#x2F;p&gt;
+</content>
+	</entry>
+	<entry xml:lang="en">
+		<title>Osmosis Driven Development</title>
+		<published>2018-10-29T00:00:00+00:00</published>
+		<updated>2020-08-08T00:00:00+00:00</updated>
+		<link href="https://k-cross.github.io/posts/osmosis/" type="text/html"/>
+		<id>https://k-cross.github.io/posts/osmosis/</id>
+		<content type="html">&lt;p&gt;In a magical world where all tasks are well defined, performing task $$Y$$ or implement feature $$X$$ is a simple matter of doing.
+In this world only the current state of the feature needs to be communicated.
+A product manager informs stakeholders what engineering is capable of based on raw metrics, creating hard deadlines meaningful to clients.
+Time is used as the sole metric to measure progress and productivity.
+Unfortunately, there&#x27;s a lot of grey area back in the non-magical realm of Earth.&lt;&#x2F;p&gt;
+&lt;p&gt;Well-defined tasks are rare in businesses with high uncertainty, volatility, or both.
+Key factors contributing to uncertainty are related to context.
+A ticket describing a task is often created by someone operating with language and context that may not translate to the person performing the task.
+Engineers usually have contextual concerns related to the inner-workings of a running system, even when the customer problem is known other departments own its context.
+What can accelerate desired outcomes and increase the effectiveness of collaboration?&lt;&#x2F;p&gt;
+&lt;p&gt;At the team level, distributing context and customer feedback between colleagues handling the same project is critical.
+Team members have the opportunity to create a shared language for the project, rather than specific field jargon segmented between different types of team members.
+Clarity between communication channels results because individuals talk about the same things rather than things that are off-center or tangential.
+The idea is to create communication based feedback loops.
+Making this loop as quick as possible is ideal since it&#x27;s used as a qualitative measure of effort.
+With a slow feedback loop, more effort is spent on work that ends up misaligned with either customer or organizational goals.&lt;&#x2F;p&gt;
+&lt;p&gt;For individuals, providing relevant context is about determining who the target audience is.
+Determining what&#x27;s useful then providing that knowledge in a format that&#x27;s easily consumable.
+Gauging what an audience needs to hear and presenting technical information in an understandable way will provide insight to other organization functions.
+Increased communication has the potential to simplify problem solutions; it&#x27;ll demonstrate both process and technical bottlenecks; finally, it provides power to persuade.
+For example, it&#x27;s valuable to be able to:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;demonstrate to product management why a particular feature is harder to build than expected&lt;&#x2F;li&gt;
+&lt;li&gt;explain why changing the shape of production data without certainty is a bad idea&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Providing insight to people in a position to fight or push back deadlines, might do just that, provided they receive information that updates their native context.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;maximum-value-for-least-effort&quot;&gt;Maximum Value for Least Effort&lt;a class=&quot;zola-anchor&quot; href=&quot;#maximum-value-for-least-effort&quot; aria-label=&quot;Anchor link for: maximum-value-for-least-effort&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;The &lt;em&gt;MVP&lt;&#x2F;em&gt; (minimum viable product) is an infamous term that&#x27;s meaningful in the context of a new product.
+Building an MVP is hard particularly when features are designed as MVPs on top of an MVP because there&#x27;s a good chance it requires compromises to &lt;em&gt;existing&lt;&#x2F;em&gt; features and functionality.
+As an application&#x27;s complexity increases, the MVP model to feature development becomes less relevant.
+Rapid prototyping should still be part of the development process, but prototypes are designed to reduce uncertainty, not become MVPs.
+As the term mentions, MVP applies to &lt;em&gt;products&lt;&#x2F;em&gt; not &lt;em&gt;features&lt;&#x2F;em&gt; so let&#x27;s posit that the goals of an MVP are the same for new features.&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;maximize value while performing least amount of work&lt;&#x2F;li&gt;
+&lt;li&gt;ship as quickly as possible&lt;&#x2F;li&gt;
+&lt;li&gt;initialize client feedback loop determining signal to noise ratio&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Building out MVPs often means catering to solving the subset of a more generalized problem.
+The &lt;em&gt;base case&lt;&#x2F;em&gt; of a problem is it&#x27;s most generic form, which might be the least commonly used case.
+The &lt;em&gt;special case&lt;&#x2F;em&gt; is a specific form of the same problem which may be simpler or more complex.
+In the stance of a special case, the base case is often required to be built to have the scaffolding ready for future features.
+If the special case is built without regard to the base case then duplicated effort results.
+When little effort is necessary to shift directions, the MVP makes sense, otherwise it&#x27;s not a useful design strategy.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;builder-s-conundrum&quot;&gt;Builder&#x27;s Conundrum&lt;a class=&quot;zola-anchor&quot; href=&quot;#builder-s-conundrum&quot; aria-label=&quot;Anchor link for: builder-s-conundrum&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;A problem by which the &lt;em&gt;builder&lt;&#x2F;em&gt; creates something to be consumed in a domain which the &lt;em&gt;builder&lt;&#x2F;em&gt; is unfamiliar.
+Imagine being new to a very large code base and assigned a critical new feature with a hard deadline.
+The design choices around data or public API endpoints are long lasting, but it&#x27;s unlikely to be correct when incremental, measured progress is the goal.
+It&#x27;s unclear how customers use APIs and it&#x27;s also unfortunate when the shape of production data difficult to work with.&lt;&#x2F;p&gt;
+&lt;p&gt;How can an engineer solve problems for customers when all the information that&#x27;s given is, &lt;em&gt;implement feature X?&lt;&#x2F;em&gt;
+Understanding how customers use a product is critical to the design and implementation of new features.
+While the product team answers these questions, it&#x27;s valuable as an engineer to understand the context behind the solutions.
+Having context results in a few benefits;
+happier customers because solutions are designed for the problem they care about, rather than _using what was designed as a &lt;em&gt;workaround for the problem they care about&lt;&#x2F;em&gt;;
+happier engineers because their autonomy increased, making judgment calls regarding the solution&#x27;s architecture, resulting in less effort and technical debt;
+happier designers and product managers because resulting features are higher quality and more in line with what clients expect.&lt;&#x2F;p&gt;
+&lt;p&gt;Humans don&#x27;t absorb information, it&#x27;s curated and consumed.
+Understanding the limitations of MVPs increases the understanding of overall feature effort with respect to the product&#x27;s phase in its life-cycle.
+For engineers, distilling technical knowledge into easy summaries that can be consumed by non-technical people will help persuade peers in other functions to fight for the important things.
+As engineers, understanding key components of why this feature is being built or how this product is being used allows for better implementation strategies and insight for meaningful compromises.
+This makes life more comfortable since overly ambitious partner commitments are less likely to occur, if we posit that colleagues are not malicious, otherwise all bets are off.&lt;&#x2F;p&gt;
+</content>
+	</entry>
+	<entry xml:lang="en">
+		<title>Elixir Impressions</title>
+		<published>2018-07-07T00:00:00+00:00</published>
+		<updated>2018-07-07T00:00:00+00:00</updated>
+		<link href="https://k-cross.github.io/posts/elixir-impressions/" type="text/html"/>
+		<id>https://k-cross.github.io/posts/elixir-impressions/</id>
+		<content type="html">&lt;p&gt;I&#x27;ve had the luxury of programming with &lt;em&gt;elixir&lt;&#x2F;em&gt; for the last nine months.
+It&#x27;s been my first full-time experience utilizing a functional language in a non-academic setting.
+&lt;em&gt;Elixir&lt;&#x2F;em&gt; is a new language built on top of &lt;em&gt;erlang&lt;&#x2F;em&gt;.
+It looks similar to &lt;em&gt;ruby&lt;&#x2F;em&gt; but the semantics are quite different.&lt;&#x2F;p&gt;
+&lt;p&gt;Coming from a &lt;em&gt;c&lt;&#x2F;em&gt; and &lt;em&gt;python&lt;&#x2F;em&gt; background, the language has been expressive, powerful, and refreshingly different.
+Its tooling makes it a pleasurable experience to work with and easy to get started on any new project.
+But the real fun comes from the language itself.
+Parallel, concurrent and distributed programming semantics are top notch and built directly into the language or provided by standard libraries.
+Have one process that needs to talk to another? Just create a simple &lt;code&gt;GenServer&lt;&#x2F;code&gt;.
+Need to create a K&#x2F;V store? There&#x27;s &lt;code&gt;ETS&lt;&#x2F;code&gt;.
+Does that store need to be available across multiple nodes and persist? There&#x27;s &lt;code&gt;mnesia&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;There are so many good solutions that are readily available to access with minimal effort.
+Most modern web applications utilize these tools, yet most languages only think about these requirements as afterthoughts.
+Applications can scale without the immediate and common constraints of other languages, making it easier for startups to focus on the problem domain.
+It&#x27;s less common to need specialized solutions like &lt;code&gt;redis&lt;&#x2F;code&gt; or &lt;code&gt;kafka&lt;&#x2F;code&gt; since similar tooling&#x27;s baked into &lt;em&gt;elixir&lt;&#x2F;em&gt; already.
+In many cases, the language tooling is the desired approach because the application can be built around business logic rather than infrastructure choices, creating less operational burdens.
+It also is closer to the business logic in a natural way which is less common in other languages trying to respect domain boundaries.
+There are still times when reaching for an external tool is required and the libraries that wrap common tools to be consumed in the language are either really good and well supported or completely lacking.
+Since &lt;em&gt;erlang&lt;&#x2F;em&gt; is in the picture, it&#x27;s really easy to natively call and use &lt;em&gt;erlang&lt;&#x2F;em&gt; libraries directly making the language far more mature in tooling than most at a similar age.&lt;&#x2F;p&gt;
+&lt;p&gt;The language is also infinitely flexible as it includes &lt;em&gt;macros&lt;&#x2F;em&gt;, a form of &lt;em&gt;metaprogramming&lt;&#x2F;em&gt;, by which the language can be extended by anyone.
+Tired of writing the same boiler-plate code over and over? Write a macro!
+The amount of thought that goes into the everyday usage of the language is also nice, since there&#x27;s a fresh take on doing things the &lt;code&gt;erlang&lt;&#x2F;code&gt; way.
+Case in point is the &lt;code&gt;with&lt;&#x2F;code&gt; statement, its inclusion wasn&#x27;t necessary but certainly makes simple patterns much easier to deal with and manage.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;elixir&quot; class=&quot;language-elixir z-code&quot;&gt;&lt;code class=&quot;language-elixir&quot; data-lang=&quot;elixir&quot;&gt;&lt;span class=&quot;z-source z-elixir&quot;&gt;error_tuple &lt;span class=&quot;z-keyword z-operator z-assignment z-elixir&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-sequence z-tuple z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-sequence z-begin z-elixir&quot;&gt;{&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-other z-symbol z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-constant z-elixir&quot;&gt;:&lt;&#x2F;span&gt;error&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-sequence z-elixir&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-string z-elixir&quot;&gt;&lt;span class=&quot;z-string z-quoted z-double z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-string z-begin z-elixir&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;function isn&amp;#39;t fun&lt;span class=&quot;z-punctuation z-definition z-string z-end z-elixir&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-sequence z-end z-elixir&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+
+&lt;span class=&quot;z-comment z-line z-number-sign z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-elixir&quot;&gt;#&lt;&#x2F;span&gt; Before `with`
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-control z-elixir&quot;&gt;case&lt;&#x2F;span&gt; fun_fun_function&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;)&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-control z-elixir&quot;&gt;do&lt;&#x2F;span&gt;
+  &lt;span class=&quot;z-meta z-sequence z-tuple z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-sequence z-begin z-elixir&quot;&gt;{&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-other z-symbol z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-constant z-elixir&quot;&gt;:&lt;&#x2F;span&gt;ok&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-sequence z-elixir&quot;&gt;,&lt;&#x2F;span&gt; val&lt;span class=&quot;z-punctuation z-section z-sequence z-end z-elixir&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-arrow z-elixir&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;
+    &lt;span class=&quot;z-keyword z-control z-elixir&quot;&gt;case&lt;&#x2F;span&gt; fun_function&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;(&lt;&#x2F;span&gt;val&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;)&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-control z-elixir&quot;&gt;do&lt;&#x2F;span&gt;
+      &lt;span class=&quot;z-meta z-sequence z-tuple z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-sequence z-begin z-elixir&quot;&gt;{&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-other z-symbol z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-constant z-elixir&quot;&gt;:&lt;&#x2F;span&gt;ok&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-sequence z-elixir&quot;&gt;,&lt;&#x2F;span&gt; val2&lt;span class=&quot;z-punctuation z-section z-sequence z-end z-elixir&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-arrow z-elixir&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt; do_stuff_with&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;(&lt;&#x2F;span&gt;val&lt;span class=&quot;z-punctuation z-separator z-object z-elixir&quot;&gt;,&lt;&#x2F;span&gt; val2&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;)&lt;&#x2F;span&gt;
+      _ &lt;span class=&quot;z-keyword z-operator z-arrow z-elixir&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt; error_tuple
+    &lt;span class=&quot;z-keyword z-control z-elixir&quot;&gt;end&lt;&#x2F;span&gt;
+  _ &lt;span class=&quot;z-keyword z-operator z-arrow z-elixir&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;
+    error_tuple
+&lt;span class=&quot;z-keyword z-control z-elixir&quot;&gt;end&lt;&#x2F;span&gt;
+
+&lt;span class=&quot;z-comment z-line z-number-sign z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-elixir&quot;&gt;#&lt;&#x2F;span&gt; Afer `with`
+&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-control z-elixir&quot;&gt;with&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-sequence z-tuple z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-sequence z-begin z-elixir&quot;&gt;{&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-other z-symbol z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-constant z-elixir&quot;&gt;:&lt;&#x2F;span&gt;ok&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-sequence z-elixir&quot;&gt;,&lt;&#x2F;span&gt; val&lt;span class=&quot;z-punctuation z-section z-sequence z-end z-elixir&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-arrow z-elixir&quot;&gt;&amp;lt;-&lt;&#x2F;span&gt; fun_fun_function&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;)&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-object z-elixir&quot;&gt;,&lt;&#x2F;span&gt;
+     &lt;span class=&quot;z-meta z-sequence z-tuple z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-sequence z-begin z-elixir&quot;&gt;{&lt;&#x2F;span&gt;&lt;span class=&quot;z-constant z-other z-symbol z-elixir&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-constant z-elixir&quot;&gt;:&lt;&#x2F;span&gt;ok&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-sequence z-elixir&quot;&gt;,&lt;&#x2F;span&gt; val2&lt;span class=&quot;z-punctuation z-section z-sequence z-end z-elixir&quot;&gt;}&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-arrow z-elixir&quot;&gt;&amp;lt;-&lt;&#x2F;span&gt; fun_function&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;(&lt;&#x2F;span&gt;val&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;)&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-control z-elixir&quot;&gt;do&lt;&#x2F;span&gt;
+  do_stuff_with&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;(&lt;&#x2F;span&gt;val&lt;span class=&quot;z-punctuation z-separator z-object z-elixir&quot;&gt;,&lt;&#x2F;span&gt; val2&lt;span class=&quot;z-punctuation z-section z-function z-elixir&quot;&gt;)&lt;&#x2F;span&gt;
+&lt;span class=&quot;z-keyword z-control z-elixir&quot;&gt;else&lt;&#x2F;span&gt;
+  _ &lt;span class=&quot;z-keyword z-operator z-arrow z-elixir&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt; error_tuple
+&lt;span class=&quot;z-keyword z-control z-elixir&quot;&gt;end&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;That&#x27;s far easier to grok both syntactically and by length.
+The &lt;code&gt;with&lt;&#x2F;code&gt; implementation is just a macro that expands into nested &lt;code&gt;case&lt;&#x2F;code&gt; statements under the hood.
+It&#x27;s possible to keep this looking pretty by making function wrappers for case statements, but that&#x27;s essentially what &lt;code&gt;with&lt;&#x2F;code&gt; does in a generic way already.
+Using the &lt;code&gt;with&lt;&#x2F;code&gt; statement is elegant for long chains of validation statements, making the code&#x27;s intent clear.&lt;&#x2F;p&gt;
+&lt;p&gt;Personally, the benefits of &lt;em&gt;elixir&lt;&#x2F;em&gt; extend beyond code.
+It&#x27;s allowed me to fully switch into the mindset of functional programming.
+It&#x27;s opened an entirely new paradigm of problem solving tools that have been mostly better than their OOP alternatives.&lt;&#x2F;p&gt;
+&lt;p&gt;All things considered, &lt;em&gt;elixir&lt;&#x2F;em&gt; is an amazing language with great tooling built on top of the incredibly reliable &lt;em&gt;BEAM&lt;&#x2F;em&gt;.
+The community is also very welcoming and friendly.
+If you&#x27;re looking for a new language or skill to pick up, I urge you to try &lt;em&gt;elixir&lt;&#x2F;em&gt;.
+It is a great way to expand your knowledge base and understanding of a variety of topics.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;updates-for-2020&quot;&gt;Updates for 2020&lt;a class=&quot;zola-anchor&quot; href=&quot;#updates-for-2020&quot; aria-label=&quot;Anchor link for: updates-for-2020&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;I&#x27;m still using &lt;em&gt;elixir&lt;&#x2F;em&gt; in 2020 and it&#x27;s still an amazing language.
+The tooling keeps improving and the community is getting larger which means the packages available are also increasing.
+Utilizing the actor model allowed our programs to run very reliably with minimal issue, while maximizing the ability to parallel process requests at a granular level.
+A similar workload and application that was written in &lt;em&gt;PHP&lt;&#x2F;em&gt; and serves less overall traffic requires upwards of 20 AWS instances.
+Contrasting that to our current &lt;em&gt;elixir&lt;&#x2F;em&gt; application, our maximum autoscale group now reaches 4 AWS instances, all of which are smaller and cheaper instance types by comparison.
+Using &lt;em&gt;elixir&lt;&#x2F;em&gt; actively saves money on &lt;em&gt;operational expenses&lt;&#x2F;em&gt; because it utilizes resources effectively.&lt;&#x2F;p&gt;
+&lt;p&gt;One caveat, I mentioned in the past about using &lt;code&gt;mnesia&lt;&#x2F;code&gt; and hinted at using &lt;code&gt;distributed erlang&lt;&#x2F;code&gt;.
+Each of those tools can work but they are specialized and should probably be avoided.
+Distributed computation is a hard problem and these tools were built with different use cases than the modern web.
+Knowing what the trade-offs are is invaluable since there are probably better options available for distributed computation.
+This will probably change over time but as of today I cannot in good conscience recommend the out-of-box tooling for this.&lt;&#x2F;p&gt;
+&lt;p&gt;The language is still great for a large variety of use cases and there many things that make it a joy to work with.
+The actor model is baked into the language itself and feels like it belongs directly in the language itself, unlike many actor frameworks in other languages.
+At the end of the day, its possible to make any language work for the problem at hand.
+For the majority of non-computationally heavy workloads, &lt;em&gt;elixir&lt;&#x2F;em&gt; still remains my goto language, even in a distributed computing world!&lt;&#x2F;p&gt;
+</content>
+	</entry>
+	<entry xml:lang="en">
+		<title>Abstractions</title>
+		<published>2018-07-04T00:00:00+00:00</published>
+		<updated>2020-07-16T00:00:00+00:00</updated>
+		<link href="https://k-cross.github.io/posts/abstractions/" type="text/html"/>
+		<id>https://k-cross.github.io/posts/abstractions/</id>
+		<content type="html">&lt;p&gt;Correct abstractions in programming are hard to make for the future case.
+Often, there is not enough data at the start of a project when the problem space is not well understood.
+This makes development harder due to the volatility of projects, showing that it&#x27;s unlikely to make meaningful predictions further into the future.
+So how then, should sustainable programs be built?
+Optimizing for code deletion is one strategy worth utilizing since it&#x27;s forward moving flexibility that&#x27;s the real goal.
+In essence, being unconstrained from the past, the future can be built unencumbered, thus reducing effort.
+The following emergent traits tend to result:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;a modular type of architecture&lt;&#x2F;li&gt;
+&lt;li&gt;extending features takes less effort&lt;&#x2F;li&gt;
+&lt;li&gt;code base is more optimized for the current running state rather than the predicted future state&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h2 id=&quot;grabbing-an-axe&quot;&gt;Grabbing an Axe&lt;a class=&quot;zola-anchor&quot; href=&quot;#grabbing-an-axe&quot; aria-label=&quot;Anchor link for: grabbing-an-axe&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;One of the more satisfying things in programming is utilizing a razor-sharp axe and cutting a code base down to size!
+Grokking a system is far easier when it&#x27;s simple, well designed, and small.
+How better, to understand a system than by focusing on cutting stuff out of it?
+When emphasis is placed on deletion it&#x27;s paramount to understand the system&#x27;s complexity and nuances at the boundaries.
+This calls for the need to have equivalency tests available to the systems that are intended to be replaced.
+Equivalence testing is the only real hope to allowing a proper rewrite.
+It&#x27;s an uneasy feeling to delete code that&#x27;s not well understood.
+Being able to verify that those changes do what&#x27;s expected is critical -- the path to the new system needs to be trustworthy.
+There&#x27;s a fine line between tests that mock what you expect versus checking the expected behavior of a &lt;em&gt;system&#x2F;function&#x2F;method&lt;&#x2F;em&gt;.
+Getting the system behavior correct is mandatory, even the undesirable behavior that is thought of as broken internally, because customers probably rely on the broken behavior making them features.&lt;&#x2F;p&gt;
+&lt;p&gt;Deletion promotes modularity and the clarity of application contracts.
+Being able to remove things comfortably means that the core logic of isolated features are successfully decoupled from the core logic of other components of the system.
+Deleting a feature should cause its tests to fail, but those tests ideally wouldn&#x27;t affect the behavior of other tests other than related subcomponent.
+Tests reveal a starting point in which to add new features once code has been deleted, or at least where more care needs to be placed.
+Tests pave the way to automate and verify the behavior of what deletion does.
+Optimizing for deletion enforces modularity because scaling quickly in a large code base demands it.
+The easiest way to verify integrity is by isolation, testing isolated components, and then testing the interoperability of the system as a whole.
+In order to do this reliably, avoid side-effects, as they&#x27;ll cause additional complexity as well as combinatorial growth of the testable problem space.
+Modularity is the core component in optimizing for deletion.
+It allows for the most flexibility during the reimplementation a feature since the interfaces remain largely unchanged.
+For instance, a billing system shouldn&#x27;t be tied to a metric system other than by interfaces, otherwise swapping out one or the other makes it a very time intensive project and the end result will almost certainly be a modular system that replaces it.
+Not convinced?
+Imagine that the billing system is a third-party service?
+What happens when that third-party changes its usage policy in a highly undesirable way?
+How much effort is required to swap implementations?&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;embracing-the-void&quot;&gt;Embracing the Void&lt;a class=&quot;zola-anchor&quot; href=&quot;#embracing-the-void&quot; aria-label=&quot;Anchor link for: embracing-the-void&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;What does the absence of code buy?
+The flexibility to extend the system with fewer legacy restrictions.
+To some degree, legacy requirements are always going to linger, but they should be external customer facing legacy issues, not internal system constraints.
+APIs are very hard to not be constrained by.
+New features are much easier to write when all the other interfaces that they&#x27;ll rely on can also be changed and modified easily.
+With a modular code base, new features can be developed and tested in isolation and then added into the system through an interface.&lt;&#x2F;p&gt;
+&lt;p&gt;Optimizing for deletion reduces the scope of development to the minimal requirements rather than predictions.
+The consequences of deletion create some very desirable traits.
+Their drawbacks come from the necessity to perform deletions reliably, which are not trivial.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;vectors&quot;&gt;Vectors&lt;a class=&quot;zola-anchor&quot; href=&quot;#vectors&quot; aria-label=&quot;Anchor link for: vectors&quot;&gt;#&lt;&#x2F;a&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;This idea is not without its drawbacks.
+Initial development velocity for example, is not a trait since it&#x27;s impossible to rebuild nontrivial features reliably.
+Taking this philosophy to its extremes, like any other philosophy, is inane.
+Feature implementations are like vector math, where there are different paths that can be taken but there&#x27;s a single optimal route from point A to point B.
+Keeping the mentioned traits in mind helps strike a balance as a guide post to do it properly.
+Improper utilization can occur when a feature is easy enough to extend rather than write from scratch.
+Too many &lt;em&gt;time&#x2F;space&lt;&#x2F;em&gt; optimizations probably results in very inflexible code which can easily become coupled with other components for the sake of efficiency.
+Sometimes it&#x27;s warranted, sometimes it&#x27;s not.
+While it&#x27;s a good idea to think about current use cases, obvious future cases like extending an API, should remain flexible enough to not have to be rewritten every time a feature is requested.&lt;&#x2F;p&gt;
+&lt;p&gt;At the end of the day,&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;83 files changed, 1716 insertions(+), 19478 deletions(-)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;if this doesn&#x27;t put a smile on your face, you&#x27;re probably a masochist.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;em&gt;NOTE: when referring to testing I mean that in the general sense, not specifically unit testing&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
+</content>
+	</entry>
+</feed>
